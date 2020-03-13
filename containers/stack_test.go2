@@ -1,9 +1,13 @@
-package containers
+package containers_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/changkun/go2demo/containers"
+)
 
 func TestStack(t *testing.T) {
-	var s Stack(string)
+	var s containers.Stack(string)
 	s.Push("hi")
 	s.Push("bye")
 	if s.IsEmpty() {

@@ -1,8 +1,10 @@
-package containers
+package containers_test
 
 import (
 	"testing"
 	"fmt"
+
+	"github.com/changkun/go2demo/containers"
 )
 
 func TestValue(t *testing.T) {
@@ -11,14 +13,14 @@ func TestValue(t *testing.T) {
 		struct{want int}{want: 2},
 	}
 
-	var v1 Value(int)
+	var v1 containers.Value(int)
 	for _, tt := range tests {
 		v1.Set(tt.want)
 		if got := v1.Get(); got != tt.want {
 			t.Fatalf(fmt.Sprintf("Get() == %d, want %d", got, tt.want))
 		}
 	}
-	var v2 Value(string)
+	var v2 containers.Value(string)
 	v2.Set("a")
 	if got, want := v2.Get(), "a"; got != want {
 		t.Fatalf(fmt.Sprintf("Get() == %v, want %v", got, want))
