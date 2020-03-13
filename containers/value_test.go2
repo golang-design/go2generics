@@ -1,0 +1,26 @@
+package containers
+
+import (
+	"testing"
+	"fmt"
+)
+
+func TestValue(t *testing.T) {
+	tests := []struct{want int}{
+		struct{want int}{want: 1},
+		struct{want int}{want: 2},
+	}
+
+	var v1 Value(int)
+	for _, tt := range tests {
+		v1.Set(tt.want)
+		if got := v1.Get(); got != tt.want {
+			t.Fatalf(fmt.Sprintf("Get() == %d, want %d", got, tt.want))
+		}
+	}
+	var v2 Value(string)
+	v2.Set("a")
+	if got, want := v2.Get(), "a"; got != want {
+		t.Fatalf(fmt.Sprintf("Get() == %v, want %v", got, want))
+	}
+}
