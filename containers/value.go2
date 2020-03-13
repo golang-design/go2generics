@@ -1,0 +1,13 @@
+package containers
+
+type Value(type T) struct {
+	val T
+}
+
+func (v *Value(T)) Get() T {
+	return v.val
+}
+
+func (v *Value(T)) Set(val T) {
+	v.val = val
+}

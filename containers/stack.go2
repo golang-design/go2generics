@@ -1,0 +1,26 @@
+package containers
+
+type Stack(type E) []E
+
+func (s *Stack(E)) Push(e E) {
+	*s = append(*s, e)
+}
+
+func (s *Stack(E)) Pop() (E, bool) {
+	l := len(*s)
+	if l == 0 {
+		var zero E
+		return zero, false
+	}
+	r := (*s)[l - 1]
+	*s = (*s)[:l - 1]
+	return r, true
+}
+
+func (s *Stack(E)) IsEmpty() bool {
+	return len(*s) == 0
+}
+
+func (s *Stack(E)) Len() int {
+	return len(*s)
+}
