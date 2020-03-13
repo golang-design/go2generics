@@ -1,0 +1,6 @@
+package contracts
+
+contract FloatComplex(F, C) {
+	F float32, float64
+	C complex64, complex128
+}

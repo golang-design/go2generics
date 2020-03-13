@@ -1,0 +1,11 @@
+package contracts
+
+// A contract specifies methods and types for each of the
+// type parameters it constrains.
+contract Stringer(T) {
+	T String() string
+}
+
+contract Sequence(T) {
+	T string, []byte
+}
