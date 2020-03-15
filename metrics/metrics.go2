@@ -1,0 +1,21 @@
+package metrics
+
+import (
+	"sync"
+
+	"github.com/changkun/go2demo/contracts"
+)
+
+type Metric(type Ts ...contracts.Comparable) struct {
+	mu sync.Mutex
+	m  map[contracts.Elements(Ts...)]int
+}
+
+func (m *Metric(Ts...)) Add(vs ...Ts) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.m == nil {
+		m.m = make(map[contracts.Elements(Ts...))]int)
+	}
+	m[contracts.Elements(Ts...){vs...}]++
+}
