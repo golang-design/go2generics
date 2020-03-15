@@ -1,0 +1,29 @@
+package math
+
+import "github.com/changkun/go2demo/contracts"
+
+func Min(type T contracts.Comparable)(s ...T) T {
+	if len(s) == 0 {
+		panic("Min of no elements")
+	}
+	r := s[0]
+	for _, v := range s[1:] {
+		if v < r {
+			r = v
+		}
+	}
+	return r
+}
+
+func Max(type T contracts.Comparable)(s ...T) T {
+	if len(s) == 0 {
+		panic("Min of no elements")
+	}
+	r := s[0]
+	for _, v := range s[1:] {
+		if v > r {
+			r = v
+		}
+	}
+	return r
+}
