@@ -4,9 +4,9 @@
 >
 > Author: Changkun Ou
 
-This document research and summarizes a personal selected list of references and relevant discussions regarding the Go generics.
+This document summarizes a personal research on a selected list of references and relevant discussions regarding the Go generics.
 
-One must aware that many discussions are personal opinionated.
+One must be aware of that many discussions are personal opinionated.
 
 ## Research Paper
 
@@ -37,10 +37,11 @@ One must read papers for digging the intrinsic properties of the generics design
 
 ## C++ Proposals
 
-The proposals can be found in C++ Standards Committee Papers: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/. Most of the proposals are done by Bjarne Stroustrup.
+The proposals can be found in C++ Standards Committee Papers: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/. Most of the proposals are done by Bjarne Stroustrup and can be found in http://www.stroustrup.com/WG21.html.
 
 - [Stroustrup 1994] Stroustrup, Bjarne. The design and evolution of C++. Pearson Education India, 1994.
   + In this book, Bjarne discussed the decision of the origin template design.
+
 
 ## Articles
 
