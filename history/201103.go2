@@ -1,0 +1,32 @@
+// Copyright 2020 Changkun Ou. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package history
+
+// This file contains an example of the early design of Go generics.
+// 
+// Design Proposal:
+// Ian Lance Taylor. "Generalized Types."golang/proposals, March 2011.
+// https://github.com/golang/proposal/blob/master/design/15292/2011-03-gen.md
+//
+// Core Idea:
+//
+// 	gen [T] func F(arg0, arg1 T) T { ... }
+// 	gen [T I[T]] func F(arg0, arg1 T) T { ... } // Interface as Constraints
+
+gen [T] type Bigger interface {
+	IsBiggerThan(T) bool
+}
+gen [T Bigger[T]] func Max(arg0, arg1 T) T {
+	if arg0.IsBiggerThan(arg1) { return arg0 }
+	return arg1
+}
+
+gen [T1, T2] (
+	type Pair struct { first T1; second T2 }
+	
+	func MakePair(first T1, second T2) Pair {
+		return &Pair{first, second}
+	}
+)

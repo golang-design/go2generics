@@ -1,0 +1,27 @@
+package history
+
+import "github.com/cheekybits/genny/generic"
+
+// This file contains an example of the early design of Go generics.
+//
+// Design Proposal:
+// Rob Pike. "Go Generate." January 2014.
+// http://golang.org/s/go1.4-generate
+//
+// Note that this proposal is more general which is not directly aim for generics.
+//
+// Implementation:
+// genny - Generics for Go
+// https://github.com/cheekybits/genny
+//
+// Core Idea:
+// cat 201401.go | genny gen "T=NUMBERS" > 201401_gen.go
+
+type T generic.Type
+
+func MaxT(fn func(a, b T) bool, a, b T) T {
+	if fn(a, b) {
+		return a
+	}
+	return b
+}

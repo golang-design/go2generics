@@ -1,0 +1,30 @@
+// Copyright 2020 Changkun Ou. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package history
+
+// This file contains an example of the early design of Go generics.
+// 
+// Design Proposal:
+// Ian Lance Taylor. "Type Functions." golang/proposals, June 2010. 
+// https://github.com/golang/proposal/blob/master/design/15292/2010-06-type-functions.md
+//
+// Core Idea:
+//
+// 	type function
+// 	type name(param1, param2, ...) definition
+//
+// 	func F(arg0, arg1 t type) t { ... }
+// 	func F(arg0, arg1 t type I(t)) t { ... }
+
+type Bigger(t) interface {
+	IsBiggerThan(t) bool
+}
+
+func Max(a, b t type Bigger(t)) t {
+	if a.IsBiggerThan(b) {
+		return a
+	}
+	return b
+}
