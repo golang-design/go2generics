@@ -17,17 +17,17 @@ package history
 
 gen [T] (
 	func Max(arg0, arg1 T) T {
-		if arg0.IsBiggerThan(arg1) { return arg0 }
+		if arg0.IsGreaterThan(arg1) { return arg0 }
 		return arg1
 	}
 
-	type Bigger interface {
-		IsBiggerThan(T) bool
+	type Greater interface {
+		IsGreaterThan(T) bool
 	}
 )
 
 type Int int
-func (i Int) IsBiggerThan(j Int) bool {
+func (i Int) IsGreaterThan(j Int) bool {
 	return i > j
 }
 

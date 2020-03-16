@@ -18,12 +18,12 @@ package history
 // 	func F(arg0, arg1 t type) t { ... }
 // 	func F(arg0, arg1 t type I(t)) t { ... }
 
-type Bigger(t) interface {
-	IsBiggerThan(t) bool
+type Greater(t) interface {
+	IsGreaterThan(t) bool
 }
 
-func Max(a, b t type Bigger(t)) t {
-	if a.IsBiggerThan(b) {
+func Max(a, b t type Greater(t)) t {
+	if a.IsGreaterThan(b) {
 		return a
 	}
 	return b
