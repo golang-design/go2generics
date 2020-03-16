@@ -1,3 +1,3 @@
-module github.com/changkun/go2demo
+module github.com/changkun/go2generics
 
 go 1.14

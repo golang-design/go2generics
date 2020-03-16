@@ -1,5 +1,39 @@
 package contracts
 
+// The Ordered contract permits any ordered type: any type that supports
+// the operations <, <=, >=, >, as well as == and !=.
+contract Ordered(T) {
+	T int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64, uintptr,
+		float32, float64, string, rune
+}
+
+contract Comparable(T) {
+	T int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64, uintptr,
+		float32, float64,
+		string
+}
+
+contract TwoComparable(K, V) {
+	Comparable(K)
+	Comparable(V)
+}
+
+contract Integer(T) {
+	T int8, int16, int32, int64, int,
+	  uint8, uint16, uint32, uint64, uint
+}
+
+type Int interface {
+	type int8, int16, int32, int64, int
+	type uint8, uint16, uint32, uint64, uint
+}
+
+type Adder(type T) interface {
+	Add(T) T
+}
+
 contract FloatComplex(F, C) {
 	F float32, float64
 	C complex64, complex128
