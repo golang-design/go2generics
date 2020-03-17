@@ -1,0 +1,45 @@
+// Copyright 2020 Changkun Ou. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package history
+
+// This file contains an example of the early design of Go generics.
+//
+// Design Proposal:
+// Bryan C. Mills. "Compile-time Functions and First Class Types." golang/proposals, September 2016.
+// https://github.com/golang/proposal/blob/master/design/15292/2016-09-compile-time-functions.md
+//
+// Core Idea:
+// - gotype builtin type
+// - Expressions of type gotype can appear anywhere a TypeName is valid, 
+// including in the parameters or return-values of a compile-time function. 
+// - const, applied at the start of a FunctionDecl, indicates a declaration 
+//   of a compile-time function.
+// - (type), used in place of a FunctionBody, LiteralValue, or the Expression 
+//   in a Conversion, represents "the type itself". It produces a constant of 
+//   type gotype.
+// - The .(type) syntax can be used as a general expression within compile-time
+//   functions. It returns the gotype of the interface value to which it is applied.
+//
+// See also: Substitution Failure Is Not An Error https://en.cppreference.com/w/cpp/language/sfinae
+//
+
+const func Max(a, b gotype) gotype {
+	switch a.(type) {
+	case int, float64, uintptr:
+		if a > b { return a}
+		return b
+	default:
+		aa, ok := a.(interface{
+			IsGreaterThan(gotype) bool
+		})
+		if !ok {
+			panic("a must implements IsGreaterThan")
+		}
+		if aa.IsGreaterThan(b) {
+			return a
+		}
+		return b
+	}
+}
