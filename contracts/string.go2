@@ -6,6 +6,11 @@ contract Stringer(T) {
 	T String() string
 }
 
+contract PrintableStringer(T) {
+	Stringer(T)
+	T Print()
+}
+
 contract Sequence(T) {
 	T string, []byte
 }
