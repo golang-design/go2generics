@@ -4,7 +4,7 @@ import (
 	"testing"
 	"fmt"
 
-	"github.com/changkun/go2demo/containers"
+	"github.com/changkun/go2generics/containers"
 )
 
 func TestValue(t *testing.T) {

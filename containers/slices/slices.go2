@@ -1,6 +1,6 @@
 package slices
 
-import "github.com/changkun/go2demo/contracts"
+import "github.com/changkun/go2generics/contracts"
 
 // Equal reports whether two slices are equal: the same length and all
 // elements equal. All floating point NaNs are considered equal.
@@ -77,6 +77,12 @@ func Reverse(type T) (list []T) {
 }
 
 func Print(type T)(s []T) {
+	for _, v := range s {
+		fmt.Println(v)
+	}
+}
+
+func PirntMany(type T)(s ...T) {
 	for _, v := range s {
 		fmt.Println(v)
 	}

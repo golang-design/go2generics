@@ -10,7 +10,7 @@ package history
 import (
 	"fmt"
 
-	"github.com/changkun/go2demo/contracts"
+	"github.com/changkun/go2generics/contracts"
 )
 
 type Tuple (type Ts ...contracts.Comparable) struct {

@@ -3,7 +3,7 @@ package containers_test
 import (
 	"testing"
 
-	"github.com/changkun/go2demo/containers"
+	"github.com/changkun/go2generics/containers"
 )
 
 func TestStack(t *testing.T) {

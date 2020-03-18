@@ -1,6 +1,6 @@
 package set
 
-import "github.com/changkun/go2demo/contracts"
+import "github.com/changkun/go2generics/contracts"
 
 type Set(type Elem contracts.Comparable) map[Elem]struct{}
 

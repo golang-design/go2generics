@@ -3,7 +3,7 @@ package containers
 import (
 	"sort"
 
-	"github.com/changkun/go2demo/contracts"
+	"github.com/changkun/go2generics/contracts"
 )
 
 // orderedSlice is a slice of values of some ordered type.

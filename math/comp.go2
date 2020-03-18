@@ -1,6 +1,6 @@
 package math
 
-import "github.com/changkun/go2demo/contracts"
+import "github.com/changkun/go2generics/contracts"
 
 func Min(type T contracts.Comparable)(s ...T) T {
 	if len(s) == 0 {

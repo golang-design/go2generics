@@ -1,7 +1,7 @@
 // Package maps implements simple functions to manipulate maps in various ways.
 package maps
 
-import "github.com/changkun/go2demo/contracts"
+import "github.com/changkun/go2generics/contracts"
 
 // Keys returns the keys of the map m.
 // The keys will be an indeterminate order.

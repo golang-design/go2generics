@@ -1,0 +1,11 @@
+package strings
+
+import "github.com/changkun/go2generics/contracts"
+
+func Stringify(type T)(s []T) ([]string) {
+	ret := []string{}
+	for _, v := range s {
+		ret = append(ret, v.String())
+	}
+	return ret
+}

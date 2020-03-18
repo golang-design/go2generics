@@ -1,6 +1,6 @@
 package maps
 
-import "github.com/changkun/go2demo/chans"
+import "github.com/changkun/go2generics/chans"
 
 // OrderedMap is an ordered map.
 type OrderedMap(type K, V) struct {
