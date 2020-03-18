@@ -1,0 +1,44 @@
+package main
+
+type Stack(type E) []E
+func NewStack(type E) () Stack(E) {
+	return Stack(E){}
+}
+func (s *Stack(E)) Pop() (r E, success bool) {
+	l := len(*s)
+	if l == 0 { return }
+	r, *s = (*s)[l - 1], (*s)[:l - 1]
+	success = true
+	return
+}
+func (s *Stack(E)) Push(e E)      { *s = append(*s, e) }
+func (s *Stack(E)) IsEmpty() bool { return len(*s) == 0 }
+func (s *Stack(E)) Len() int      { return len(*s) }
+
+func main() {
+	s := NewStack(string)()
+	s.Push("hi")
+	s.Push("generics")
+	s.Push("good bye")
+	if s.IsEmpty() {
+		panic("unexpected IsEmpty")
+	}
+	if s.Len() != 3 {
+		panic("bad Len")
+	}
+	if v, ok := s.Pop(); !ok || v != "good bye" {
+		panic("bad Pop 1")
+	}
+	if v, ok := s.Pop(); !ok || v != "generics" {
+		panic("bad Pop 2")
+	}
+	if v, ok := s.Pop(); !ok || v != "hi" {
+		panic("bad Pop 3")
+	}
+	if !s.IsEmpty() {
+		panic("expected IsEmpty")
+	}
+	if s.Len() != 0 {
+		panic("bad Len 2")
+	}
+}
