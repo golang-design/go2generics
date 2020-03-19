@@ -1,0 +1,8 @@
+package math
+
+import "github.com/changkun/go2generics/contracts"
+
+// IsNaN reports if f is an number
+func IsNaN(type Elem contracts.Ordered)(e Elem) bool { 
+	return e != e
+}
