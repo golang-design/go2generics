@@ -13,7 +13,7 @@ type Q struct {
 	s []P
 }
 
-func F() Q {
+func F1() Q {
 			var s []P
 
 //line bug1.go2:69
@@ -21,7 +21,7 @@ func F() Q {
 }
 
 func main() {
-	F()
+	F1()
 }
 
 //line bug1.go2:74

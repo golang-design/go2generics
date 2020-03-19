@@ -61,7 +61,7 @@ type Q struct {
 	s []P
 }
 
-func F() Q {
+func F1() Q {
 	var s []P // OK
 	// s := []P{} // FAIL
 	// s := *new([]P) // FAIL
@@ -70,5 +70,5 @@ func F() Q {
 }
 
 func main() {
-	F()
+	F1()
 }
