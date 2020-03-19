@@ -2,7 +2,7 @@ package math
 
 import "github.com/changkun/go2generics/contracts"
 
-func Min(type T contracts.Comparable)(s ...T) T {
+func Min(type T contracts.Ordered)(s ...T) T {
 	if len(s) == 0 {
 		panic("Min of no elements")
 	}
@@ -15,15 +15,16 @@ func Min(type T contracts.Comparable)(s ...T) T {
 	return r
 }
 
-func Max(type T contracts.Comparable)(s ...T) T {
-	if len(s) == 0 {
-		panic("Min of no elements")
+func Max(type T contracts.Ordered)(v0 T, vn ...T) T {
+	switch l := len(vn); {
+	case l == 0:
+		return v0
+	case l == 1:
+		if v0 > vn[0] { return v0 }
+		return vn[0]
+	default:
+		vv := Max(vn[0], vn[1:]...)
+		if v0 > vv { return v0 }
+		return vv
 	}
-	r := s[0]
-	for _, v := range s[1:] {
-		if v > r {
-			r = v
-		}
-	}
-	return r
 }
