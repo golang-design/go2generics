@@ -1,5 +1,10 @@
 package future
 
+import (
+	"sync/atomic"
+	"runtime"
+)
+
 type Future (type T) struct {
 	value atomic.Value
 }
