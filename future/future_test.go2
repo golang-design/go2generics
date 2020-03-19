@@ -4,22 +4,7 @@ import (
 	"testing"
 	"time"
 )
-type Future (type T) struct {
-	value atomic.Value
-}
 
-// Get implements TaskFuture interface
-func (f *Future(T)) Get() T {
-	var v interface{}
-	for ; v == nil; v = f.value.Load() {
-		runtime.Gosched()
-	}
-	return v.(T)
-}
-
-func (f *Future(T)) Put(v T) {
-	f.value.Store(interface{}(v))
-}
 func TestFuture(t *testing.T) {
 	s := "done"
 	f := Future(string){}
