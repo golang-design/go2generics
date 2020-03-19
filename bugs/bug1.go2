@@ -1,0 +1,72 @@
+package bugs
+
+// This is a bug that forces user to use parentheses to indicate type literals.
+// Sometimes it is annoying and absolutely not perfect for a compiler.
+//
+// Here is Robert Griesemer's response about this:
+//
+// Let's consider the simplified case
+//
+// 	type T(type P) struct{}
+// 	func _() {
+// 		_ = []T(int){}
+// 	}
+// The problem is that the parser doesn't know if this is
+// ([]T)(int) or [](T(int)) (followed by {} in both cases),
+// so it assumes the former ([]T) which fails. If you put parentheses
+// there so it reads
+//
+// 	_ = [](T(int)){}
+//
+// it works. Same for your examples. I believe this is documented
+// in the draft design.
+//
+// The reason why the parentheses are not needed in your first case is
+// that there we are in "type context"; i.e., the parser expects a type,
+// not a conversion, and thus when seeing the "(" of "(T1, T2)" it can
+// safely assume it is the instantiation of P. If we are not in
+// type context, the parser cannot in general assume that a "(" is
+// part of the type as that would be backward-incompatible. That is
+// why []P(T) must be parsed as ([]P)(T). A concrete example would be:
+// []byte(s). We want this to be a conversion of the string s to a
+// []byte; not a slice of "bytes instantiated with s".
+//
+// In the case of a {} following, one could argue that the parser
+// should be smart enough to know that we have a type literal.
+// But consider this case:
+//
+// 	if T(P) { ...
+//
+// which is already problematic in regular Go. That said,
+// perhaps ([]T(P){...}) should be ok and not require ([](T(P)){}).
+// I'll look into this, but that's not urgent.
+//
+// Finally, for the built-in calls new and make, we do know that
+// the first argument is a type, and thus we are in a type context.
+// But the parser cannot know (somebody may declare a function new,
+// or make). Only a type-checking time we can know.
+// Thus, the parentheses are required as well.
+
+// (It may be possible to have the type-checker "re-associate"
+// the AST when type-checking, but I am not sure we want to go
+// there quite yet.)
+
+type P struct {
+	K int
+	V int
+}
+type Q struct {
+	s []P
+}
+
+func F() Q {
+	var s []P // OK
+	// s := []P{} // FAIL
+	// s := *new([]P) // FAIL
+	// s := make([]P, 0) // FAIL
+	return Q{s}
+}
+
+func main() {
+	F()
+}
