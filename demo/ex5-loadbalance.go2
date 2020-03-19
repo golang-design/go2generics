@@ -35,14 +35,16 @@ func getSquareChan(input <-chan int) <-chan int {
 
 // generic fan-in -- by changkun
 func Fanin(type T)(chans ...<-chan T) <-chan T {
-	var wg sync.WaitGroup
+	buf := 0
+	for _, ch := range chans {
+		if len(ch) > buf { buf = len(ch) }
+	} 
 	out := make(chan T)
+	wg := sync.WaitGroup{}
 	wg.Add(len(chans))
 	for _, ch := range chans {
 		go func(ch <-chan T) {
-			for v := range ch { 
-				out <- v
-			}
+			for v := range ch { out <- v }
 			wg.Done()
 		}(ch)
 	}
@@ -72,6 +74,7 @@ func main() {
 		outs[i] = make(chan int, 100)
 	}
 
+	// load balancing
 	Fanout(Fanin(inA, inB), outs...)
 
 	wg := sync.WaitGroup{}
