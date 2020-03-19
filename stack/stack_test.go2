@@ -1,13 +1,11 @@
-package containers_test
+package stack
 
 import (
 	"testing"
-
-	"github.com/changkun/go2generics/containers"
 )
 
 func TestStack(t *testing.T) {
-	var s containers.Stack(string)
+	var s Stack(string)
 	s.Push("hi")
 	s.Push("bye")
 	if s.IsEmpty() {
