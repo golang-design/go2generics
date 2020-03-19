@@ -3,6 +3,8 @@ package bugs
 // This is a bug that forces user to use parentheses to indicate type literals.
 // Sometimes it is annoying and absolutely not perfect for a compiler.
 //
+// 2020-03-18
+//
 // Here is Robert Griesemer's response about this:
 //
 // Let's consider the simplified case

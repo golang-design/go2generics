@@ -4,7 +4,7 @@
 //line bug1.go2:1
 package bugs
 
-//line bug1.go2:54
+//line bug1.go2:56
 type P struct {
 	K int
 	V int
@@ -16,7 +16,7 @@ type Q struct {
 func F() Q {
 			var s []P
 
-//line bug1.go2:67
+//line bug1.go2:69
  return Q{s}
 }
 
@@ -24,5 +24,5 @@ func main() {
 	F()
 }
 
-//line bug1.go2:72
+//line bug1.go2:74
 type Importable୦ int
