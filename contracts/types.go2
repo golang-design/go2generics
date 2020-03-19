@@ -12,7 +12,7 @@ contract Comparable(T) {
 	T int, int8, int16, int32, int64,
 		uint, uint8, uint16, uint32, uint64, uintptr,
 		float32, float64,
-		string
+		string, rune
 }
 
 contract TwoComparable(K, V) {
@@ -25,13 +25,16 @@ contract Integer(T) {
 	  uint8, uint16, uint32, uint64, uint
 }
 
-type Int interface {
-	type int8, int16, int32, int64, int
-	type uint8, uint16, uint32, uint64, uint
+contract Signed(T) {
+	T int, int8, int16, int32, int64
 }
 
-type Adder(type T) interface {
-	Add(T) T
+contract Unsigned(T) {
+	T uint, uint8, uint16, uint32, uint64, uintptr
+}
+
+contract Adder(T) {
+	T Add(T) T
 }
 
 contract FloatComplex(F, C) {

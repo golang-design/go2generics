@@ -25,5 +25,5 @@ contract OrderedNumeric(T) {
 
 // Complex matches the two complex types, which do not have a < operator.
 contract Complex(T) {
-	T complex64; T complex128
+	T complex64, complex128
 }

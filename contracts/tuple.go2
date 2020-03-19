@@ -1,5 +1,0 @@
-package contracts
-
-type Tuple(type Ts ...Comparable) struct {
-	Elements ...Ts
-}
