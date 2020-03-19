@@ -6,19 +6,19 @@ package history
 
 // generics: by contract
 
-contract Bigger(T) {
-    IsBiggerThan(T) bool
+contract Greater(T) {
+    IsGreaterThan(T) bool
 }
 
-func Max(type T Bigger) (a, b T) T { ... }
+func Max(type T Greater) (a, b T) T { ... }
 
 // generics: by parametric interface
 
-type Bigger(type T) {
-    IsBiggerThan(T)
+type Greater(type T) {
+    IsGreaterThan(T)
 }
 
-func Max(type T Bigger(T)) (a, b T) T { ... }
+func Max(type T Greater(T)) (a, b T) T { ... }
 
 // a more complex example:
 
