@@ -20,7 +20,7 @@ You can use `go2go` to build all code examples in this repository.
 2. Download `go2go` code patch
 
 ```
-git fetch "https://go.googlesource.com/go" refs/changes/17/187317/13 && git checkout FETCH_HEAD
+git fetch "https://go.googlesource.com/go" refs/changes/17/187317/15 && git checkout FETCH_HEAD
 ```
 
 3. Place the repository in `GO2PATH`. The `go2generics` repository path should looks like the follows:
