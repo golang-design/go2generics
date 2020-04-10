@@ -4,10 +4,10 @@
 //line errors_test.go2:1
 package errors
 
-import (
-	"testing"
-)
+//line errors_test.go2:1
+import "testing"
 
+//line errors_test.go2:7
 type e struct{}
 
 func (a e) Error() string { return "error" }
@@ -87,4 +87,4 @@ func (c instantiate୦୦catch୦int,) Final(handler func(int,
 }
 
 //line errors.go2:27
-type _ testing.B
+var _ = testing.AllocsPerRun

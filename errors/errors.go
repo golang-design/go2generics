@@ -5,4 +5,10 @@
 package errors
 
 //line errors.go2:2
+import "testing"
+
+//line errors.go2:2
 type Importable୦ int
+
+//line errors.go2:2
+var _ = testing.AllocsPerRun
