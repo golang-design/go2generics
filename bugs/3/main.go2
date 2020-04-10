@@ -1,0 +1,11 @@
+package main
+
+// This bug shows that we cannot use generic pointers.
+//
+// 2020-04-10
+
+contract Ordered(T) {
+	*T Less(*T)
+}
+
+func main() {}

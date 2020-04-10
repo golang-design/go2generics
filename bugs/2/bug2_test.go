@@ -4,11 +4,18 @@
 //line bug2_test.go2:1
 package bugs
 
+//line bug2_test.go2:1
 import (
-	"testing"
+//line bug2_test.go2:1
+ "runtime"
+//line bug2_test.go2:1
+ "sync/atomic"
+//line bug2_test.go2:1
+ "testing"
+//line bug2_test.go2:1
 )
 
-//line bug2_test.go2:10
+//line bug2_test.go2:12
 func TestFuture(t *testing.T) {
 	s := "done"
 	f := instantiate୦୦Future୦string{}
@@ -19,7 +26,7 @@ func TestFuture(t *testing.T) {
 	}
 }
 
-//line bug2_test.go2:18
+//line bug2_test.go2:20
 type instantiate୦୦Future୦string struct {
 //line bug2.go2:11
  value atomic.Value
@@ -41,4 +48,8 @@ func (f *instantiate୦୦Future୦string,) Put(v string,
 }
 
 //line bug2.go2:24
-type _ testing.B
+var _ = runtime.BlockProfile
+//line bug2.go2:24
+var _ = atomic.AddInt32
+//line bug2.go2:24
+var _ = testing.AllocsPerRun
