@@ -4,9 +4,26 @@
 //line lb.go2:5
 package chans
 
+//line lb.go2:5
 import (
-	"math/rand"
+//line lb.go2:5
+ "math/rand"
+//line lb.go2:5
+ "runtime"
+//line lb.go2:5
+ "sync"
+//line lb.go2:5
+ "testing"
+//line lb.go2:5
 )
 
-//line lb.go2:9
-type _ rand.Rand
+//line lb.go2:5
+var _ = rand.ExpFloat64
+//line lb.go2:5
+var _ = runtime.BlockProfile
+
+//line lb.go2:5
+type _ sync.Cond
+
+//line lb.go2:5
+var _ = testing.AllocsPerRun

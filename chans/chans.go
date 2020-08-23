@@ -4,9 +4,29 @@
 //line chans.go2:1
 package chans
 
-import "runtime"
+//line chans.go2:1
+import (
+//line chans.go2:1
+ "math/rand"
+//line chans.go2:1
+ "runtime"
+//line chans.go2:1
+ "sync"
+//line chans.go2:1
+ "testing"
+//line chans.go2:1
+)
 
-//line chans.go2:3
+//line chans.go2:1
 type Importable୦ int
-//line chans.go2:3
-type _ runtime.BlockProfileRecord
+
+//line chans.go2:1
+var _ = rand.ExpFloat64
+//line chans.go2:1
+var _ = runtime.BlockProfile
+
+//line chans.go2:1
+type _ sync.Cond
+
+//line chans.go2:1
+var _ = testing.AllocsPerRun
