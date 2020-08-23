@@ -7,15 +7,15 @@ package atomic
 import "sync/atomic"
 
 // Value is a type-safe atomic value
-type Value(type T) struct {
+type Value[type T] struct {
 	val atomic.Value
 }
 
-func (v *Value(T)) Load() T {
+func (v *Value[T]) Load() T {
 	x := v.val.Load()
 	return x.(T)
 }
 
-func (v *Value(T)) Store(val T) {
+func (v *Value[T]) Store(val T) {
 	v.val.Store(interface{}(val))
 }
