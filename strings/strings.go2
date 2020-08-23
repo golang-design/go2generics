@@ -1,8 +1,13 @@
 package strings
 
-import "github.com/changkun/go2generics/contracts"
+// An interface specifies methods and types for each of the
+// type parameters it constrains.
+type Stringer interface {
+	String() string
+}
 
-func Stringify(type T)(s []T) ([]string) {
+
+func Stringify[type T Stringer](s []T) ([]string) {
 	ret := []string{}
 	for _, v := range s {
 		ret = append(ret, v.String())
