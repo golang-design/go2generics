@@ -4,13 +4,22 @@
 //line set_test.go2:1
 package sets
 
+//line set_test.go2:1
 import (
-	"sort"
-	"testing"
-
-	"github.com/changkun/go2generics/slices"
+//line set_test.go2:1
+ "fmt"
+//line set_test.go2:1
+ "github.com/changkun/go2generics/math"
+//line set_test.go2:1
+ "github.com/changkun/go2generics/slices"
+//line set_test.go2:1
+ "sort"
+//line set_test.go2:1
+ "testing"
+//line set_test.go2:1
 )
 
+//line set_test.go2:10
 func TestSet(t *testing.T) {
 	s1 := instantiate୦୦Make୦int()
 	if got := s1.Len(); got != 0 {
@@ -144,42 +153,44 @@ func TestFilter(t *testing.T) {
 	}
 
 }
-//line set.go2:7
+//line set.go2:5
 func instantiate୦୦Make୦int() instantiate୦୦Set୦int {
 	return make(instantiate୦୦Set୦int)
 }
 
-//line set_test.go2:11
+//line set_test.go2:12
 func instantiate୦slices୦Equal୦int(s1, s2 []int,) bool {
-//line set_test.go2:13
- if len(s1) != len(s2) {
+	if len(
+		s1) !=
+		len(s2) {
 		return false
-//line set_test.go2:16
- }
-//line set_test.go2:16
- for i, v1 := range s1 {
+	}
+	for i, v1 := range s1 {
 //line set_test.go2:18
-  v2 := s2[i]
-//line set_test.go2:18
-  if v1 !=
-			v2 {
+  v2 :=
+					s2[i]
+//line set_test.go2:19
+  if v1 != v2 {
 //line set_test.go2:19
    if !instantiate୦math୦IsNaN୦int(v1) || !instantiate୦math୦IsNaN୦int(v2) {
-
-				return false
-			}
 //line set_test.go2:22
+    return false
+//line set_test.go2:24
+   }
+//line set_test.go2:24
   }
-	}
-//line set_test.go2:23
+//line set_test.go2:24
+ }
+//line set_test.go2:24
  return true
+//line set_test.go2:24
 }
-//line set.go2:7
+//line set.go2:5
 func instantiate୦୦Make୦string() instantiate୦୦Set୦string {
 	return make(instantiate୦୦Set୦string)
 }
 
-//line set.go2:40
+//line set.go2:38
 func instantiate୦୦Equal୦string(s1, s2 instantiate୦୦Set୦string,) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -191,12 +202,12 @@ func instantiate୦୦Equal୦string(s1, s2 instantiate୦୦Set୦string,) bool
 	}
 	return true
 }
-//line set.go2:7
+//line set.go2:5
 func instantiate୦୦Make୦float64() instantiate୦୦Set୦float64 {
 	return make(instantiate୦୦Set୦float64)
 }
 
-//line set.go2:40
+//line set.go2:38
 func instantiate୦୦Equal୦float64(s1, s2 instantiate୦୦Set୦float64,) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -208,7 +219,7 @@ func instantiate୦୦Equal୦float64(s1, s2 instantiate୦୦Set୦float64,) bo
 	}
 	return true
 }
-//line set.go2:40
+//line set.go2:38
 func instantiate୦୦Equal୦int(s1, s2 instantiate୦୦Set୦int,) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -221,24 +232,24 @@ func instantiate୦୦Equal୦int(s1, s2 instantiate୦୦Set୦int,) bool {
 	return true
 }
 
-//line set.go2:50
+//line set.go2:48
 type instantiate୦୦Set୦int map[int]struct{}
 
-//line set.go2:11
+//line set.go2:9
 func (s instantiate୦୦Set୦int,) Add(v int) {
 	s[v] = struct{}{}
 }
 
 func (s instantiate୦୦Set୦int,) Delete(v int,
 
-//line set.go2:15
+//line set.go2:13
 ) {
 	delete(s, v)
 }
 
 func (s instantiate୦୦Set୦int,) Contains(v int,
 
-//line set.go2:19
+//line set.go2:17
 ) bool {
 	_, ok := s[v]
 	return ok
@@ -250,12 +261,12 @@ func (s instantiate୦୦Set୦int,) Len() int {
 
 func (s instantiate୦୦Set୦int,) Iterate(f func(int,
 
-//line set.go2:28
+//line set.go2:26
 )) {
 	for v := range s {
-//line set.go2:29
+//line set.go2:27
   f(v)
-//line set.go2:29
+//line set.go2:27
  }
 }
 
@@ -267,7 +278,7 @@ func (s instantiate୦୦Set୦int,) Values() []int {
 	return r
 }
 
-//line set.go2:52
+//line set.go2:50
 func (s instantiate୦୦Set୦int,) Copy() instantiate୦୦Set୦int {
 	r := instantiate୦୦Set୦int(make(map[int]struct{}, len(s)))
 	for v := range s {
@@ -298,7 +309,7 @@ func (s instantiate୦୦Set୦int,) Intersect(s2 instantiate୦୦Set୦int,) {
 
 func (s instantiate୦୦Set୦int,) Filter(f func(int,
 
-//line set.go2:80
+//line set.go2:78
 ) bool) {
 	for v := range s {
 		if !f(v) {
@@ -306,17 +317,16 @@ func (s instantiate୦୦Set୦int,) Filter(f func(int,
 		}
 	}
 }
-//line set.go2:67
+//line set_test.go2:13
 func instantiate୦math୦IsNaN୦int(e int,) bool {
-//line set.go2:72
- return e != e
-//line set.go2:72
+	return e != e
+//line set_test.go2:16
 }
 
-//line set.go2:72
+//line set_test.go2:16
 type instantiate୦୦Set୦string map[string]struct{}
 
-//line set.go2:11
+//line set.go2:9
 func (s instantiate୦୦Set୦string,) Add(v string) {
 	s[v] = struct{}{}
 }
@@ -338,11 +348,11 @@ func (s instantiate୦୦Set୦string,) Iterate(f func(
 
 //line set_test.go2:42
  string)) {
-//line set.go2:29
+//line set.go2:27
  for v := range s {
-//line set.go2:29
+//line set.go2:27
   f(v)
-//line set.go2:29
+//line set.go2:27
  }
 }
 
@@ -354,7 +364,7 @@ func (s instantiate୦୦Set୦string,) Values() []string {
 	return r
 }
 
-//line set.go2:52
+//line set.go2:50
 func (s instantiate୦୦Set୦string,) Copy() instantiate୦୦Set୦string {
 	r := instantiate୦୦Set୦string(make(map[string]struct{}, len(s)))
 	for v := range s {
@@ -385,7 +395,7 @@ func (s instantiate୦୦Set୦string,) Intersect(s2 instantiate୦୦Set୦stri
 
 func (s instantiate୦୦Set୦string,) Filter(f func(string,
 
-//line set.go2:80
+//line set.go2:78
 ) bool) {
 	for v := range s {
 		if !f(v) {
@@ -394,10 +404,10 @@ func (s instantiate୦୦Set୦string,) Filter(f func(string,
 	}
 }
 
-//line set.go2:86
+//line set.go2:84
 type instantiate୦୦Set୦float64 map[float64]struct{}
 
-//line set.go2:11
+//line set.go2:9
 func (s instantiate୦୦Set୦float64,) Add(v float64) {
 	s[v] = struct{}{}
 }
@@ -419,11 +429,11 @@ func (s instantiate୦୦Set୦float64,) Iterate(f func(
 
 //line set_test.go2:58
  float64)) {
-//line set.go2:29
+//line set.go2:27
  for v := range s {
-//line set.go2:29
+//line set.go2:27
   f(v)
-//line set.go2:29
+//line set.go2:27
  }
 }
 
@@ -435,7 +445,7 @@ func (s instantiate୦୦Set୦float64,) Values() []float64 {
 	return r
 }
 
-//line set.go2:52
+//line set.go2:50
 func (s instantiate୦୦Set୦float64,) Copy() instantiate୦୦Set୦float64 {
 	r := instantiate୦୦Set୦float64(make(map[float64]struct{}, len(s)))
 	for v := range s {
@@ -466,7 +476,7 @@ func (s instantiate୦୦Set୦float64,) Intersect(s2 instantiate୦୦Set୦flo
 
 func (s instantiate୦୦Set୦float64,) Filter(f func(float64,
 
-//line set.go2:80
+//line set.go2:78
 ) bool) {
 	for v := range s {
 		if !f(v) {
@@ -475,9 +485,15 @@ func (s instantiate୦୦Set୦float64,) Filter(f func(float64,
 	}
 }
 
-//line set.go2:86
-type _ sort.Float64Slice
-//line set.go2:86
-type _ testing.B
-//line set.go2:86
+//line set.go2:84
+var _ = fmt.Errorf
+
+//line set.go2:84
+type _ math.Importable୦
+//line set.go2:84
 type _ slices.Importable୦
+//line set.go2:84
+type _ sort.Float64Slice
+
+//line set.go2:84
+var _ = testing.AllocsPerRun

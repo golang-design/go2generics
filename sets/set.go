@@ -4,9 +4,33 @@
 //line set.go2:1
 package sets
 
-import "github.com/changkun/go2generics/contracts"
+//line set.go2:1
+import (
+//line set.go2:1
+ "fmt"
+//line set.go2:1
+ "github.com/changkun/go2generics/math"
+//line set.go2:1
+ "github.com/changkun/go2generics/slices"
+//line set.go2:1
+ "sort"
+//line set.go2:1
+ "testing"
+//line set.go2:1
+)
 
-//line set.go2:3
+//line set.go2:1
 type Importable୦ int
-//line set.go2:3
-type _ contracts.Importable୦
+
+//line set.go2:1
+var _ = fmt.Errorf
+
+//line set.go2:1
+type _ math.Importable୦
+//line set.go2:1
+type _ slices.Importable୦
+//line set.go2:1
+type _ sort.Float64Slice
+
+//line set.go2:1
+var _ = testing.AllocsPerRun
