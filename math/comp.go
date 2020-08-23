@@ -4,9 +4,8 @@
 //line comp.go2:1
 package math
 
-import "github.com/changkun/go2generics/contracts"
+//line comp.go2:1
+import "testing"
 
-//line comp.go2:3
-type Importable୦ int
-//line comp.go2:3
-type _ contracts.Importable୦
+//line comp.go2:1
+var _ = testing.AllocsPerRun
