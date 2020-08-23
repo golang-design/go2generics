@@ -4,13 +4,26 @@
 //line sort.go2:1
 package slices
 
+//line sort.go2:1
 import (
-	"sort"
-
-	"github.com/changkun/go2generics/contracts"
+//line sort.go2:1
+ "fmt"
+//line sort.go2:1
+ "github.com/changkun/go2generics/math"
+//line sort.go2:1
+ "sort"
+//line sort.go2:1
+ "testing"
+//line sort.go2:1
 )
 
-//line sort.go2:7
+//line sort.go2:1
+var _ = fmt.Errorf
+
+//line sort.go2:1
+type _ math.Importable୦
+//line sort.go2:1
 type _ sort.Float64Slice
-//line sort.go2:7
-type _ contracts.Importable୦
+
+//line sort.go2:1
+var _ = testing.AllocsPerRun

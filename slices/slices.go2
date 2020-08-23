@@ -3,12 +3,11 @@ package slices
 import (
 	"fmt"
 
-	"github.com/changkun/go2generics/contracts"
 	"github.com/changkun/go2generics/math"
 )
 
 // Equal reports whether two slices are equal
-func Equal(type Elem contracts.Ordered)(s1, s2 []Elem) bool {
+func Equal[type Elem math.Ordered](s1, s2 []Elem) bool {
 	if len(s1) != len(s2) {
 		return false
 	}
@@ -25,7 +24,7 @@ func Equal(type Elem contracts.Ordered)(s1, s2 []Elem) bool {
 
 // EqualFn reports whether two slices are equal using a comparision
 // function on each element.
-func EqualFn(type Elem)(s1, s2 []Elem, eq func(Elem, Elem) bool) bool {
+func EqualFn[type Elem](s1, s2 []Elem, eq func(Elem, Elem) bool) bool {
 	if len(s1) != len(s2) {
 		return false
 	}
@@ -39,7 +38,7 @@ func EqualFn(type Elem)(s1, s2 []Elem, eq func(Elem, Elem) bool) bool {
 }
 
 // Map turns a []T1 to a []T2 using a mapping function.
-func Map(type T1, T2)(s []T1, f func(T1) T2) []T2 {
+func Map[type T1, T2](s []T1, f func(T1) T2) []T2 {
 	r := make([]T2, len(s))
 	for i, v := range s {
 		r[i] = f(v)
@@ -48,7 +47,7 @@ func Map(type T1, T2)(s []T1, f func(T1) T2) []T2 {
 }
 
 // Reduce reduces a []T1 to a single value using a reduction function.
-func Reduce(type T1, T2)(s []T1, initializer T2, f func(T2, T1) T2) T2 {
+func Reduce[type T1, T2](s []T1, initializer T2, f func(T2, T1) T2) T2 {
 	r := initializer
 	for _, v := range s {
 		r = f(r, v)
@@ -57,7 +56,7 @@ func Reduce(type T1, T2)(s []T1, initializer T2, f func(T2, T1) T2) T2 {
 }
 
 // Filter filters values from a slice using a filter function.
-func Filter(type T)(s []T, f func(T) bool) []T {
+func Filter[type T](s []T, f func(T) bool) []T {
 	var r []T
 	for _, v := range s {
 		if f(v) {
@@ -69,7 +68,7 @@ func Filter(type T)(s []T, f func(T) bool) []T {
 
 // Reverse is a function that takes a []T argument and
 // reverses that slice in place.
-func Reverse(type T) (list []T) {
+func Reverse[type T](list []T) {
 	i := 0
 	j := len(list)-1
 	for i < j {
@@ -79,13 +78,13 @@ func Reverse(type T) (list []T) {
 	}
 }
 
-func Prints(type T)(s []T) {
+func Prints[type T](s []T) {
 	for _, v := range s {
 		fmt.Println(v)
 	}
 }
 
-func Pirnts(type T)(s ...T) {
+func Pirnts[type T](s ...T) {
 	for _, v := range s {
 		fmt.Println(v)
 	}
