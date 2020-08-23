@@ -4,23 +4,21 @@
 
 package main
 
-import "github.com/changkun/go2generics/contracts"
-
-// naive generic map[k]v -- by changkun
-type Pair(type T1, T2) struct {
+// naive generic map[k]v
+type Pair[type T1, T2] struct {
 	Key   T1
 	Value T2
 }
-type Map(type T1, T2 contracts.Comparable(T1)) struct {
-	s []Pair(T1, T2)
+type Map[type T1 comparable, T2 interface{}] struct {
+	s []Pair[T1, T2]
 }
-func NewMap(type T1, T2) () Map(T1, T2) {
-	return Map(T1, T2){s: [](Pair(T1, T2)){}}
+func NewMap[type T1 comparable, T2 interface{}] () Map[T1, T2] {
+	return Map[T1, T2]{s: [](Pair[T1, T2]){}}
 }
-func (m *Map(T1, T2)) Set(k T1, v T2) {
-	m.s = append(m.s, Pair(T1, T2){k, v})
+func (m *Map[T1, T2]) Set(k T1, v T2) {
+	m.s = append(m.s, Pair[T1, T2]{k, v})
 }
-func (m *Map(T1, T2)) Get(k T1) (v T2, ok bool) {
+func (m *Map[T1, T2]) Get(k T1) (v T2, ok bool) {
 	for _, p := range m.s {
 		if p.Key == k {
 			return p.Value, true
@@ -30,7 +28,7 @@ func (m *Map(T1, T2)) Get(k T1) (v T2, ok bool) {
 }
 
 func main() {
-	m := NewMap(int, float64)()
+	m := NewMap[int, float64]()
 	m.Set(1, 2.0)
 	m.Set(2, 3.0)
 	m.Set(3, 4.0)
