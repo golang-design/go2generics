@@ -5,4 +5,10 @@
 package stack
 
 //line stack.go2:1
+import "testing"
+
+//line stack.go2:1
 type Importable୦ int
+
+//line stack.go2:1
+var _ = testing.AllocsPerRun

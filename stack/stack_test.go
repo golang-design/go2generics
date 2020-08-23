@@ -4,10 +4,10 @@
 //line stack_test.go2:1
 package stack
 
-import (
-	"testing"
-)
+//line stack_test.go2:1
+import "testing"
 
+//line stack_test.go2:7
 func TestStack(t *testing.T) {
 	var s instantiate୦୦Stack୦string
 	s.Push("hi")
@@ -64,4 +64,4 @@ func (s *instantiate୦୦Stack୦string,) Len() int {
 }
 
 //line stack.go2:26
-type _ testing.B
+var _ = testing.AllocsPerRun
