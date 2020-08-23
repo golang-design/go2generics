@@ -5,4 +5,18 @@
 package ring
 
 //line ring.go2:2
+import (
+//line ring.go2:2
+ "fmt"
+//line ring.go2:2
+ "testing"
+//line ring.go2:2
+)
+
+//line ring.go2:2
 type Importable୦ int
+
+//line ring.go2:2
+var _ = fmt.Errorf
+//line ring.go2:2
+var _ = testing.AllocsPerRun

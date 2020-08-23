@@ -4,9 +4,13 @@
 //line ring_test.go2:1
 package ring
 
+//line ring_test.go2:1
 import (
-	"fmt"
-	"testing"
+//line ring_test.go2:1
+ "fmt"
+//line ring_test.go2:1
+ "testing"
+//line ring_test.go2:1
 )
 
 //line ring_test.go2:22
@@ -323,6 +327,6 @@ func instantiate୦୦New୦int(n int) *instantiate୦୦Ring୦int {
 }
 
 //line ring.go2:71
-type _ fmt.Formatter
+var _ = fmt.Errorf
 //line ring.go2:71
-type _ testing.B
+var _ = testing.AllocsPerRun

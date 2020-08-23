@@ -7,19 +7,19 @@ package ring
 // as nil Ring pointers. The zero value for a Ring is a one-element
 // ring with a nil Value.
 //
-type Ring(type Val) struct {
-	next, prev *Ring(Val)
+type Ring[type Val] struct {
+	next, prev *Ring[Val]
 	Value      Val // for use by client; untouched by this library
 }
 
-func (r *Ring(Val)) init() *Ring(Val) {
+func (r *Ring[Val]) init() *Ring[Val] {
 	r.next = r
 	r.prev = r
 	return r
 }
 
 // Next returns the next ring element. r must not be empty.
-func (r *Ring(Val)) Next() *Ring(Val) {
+func (r *Ring[Val]) Next() *Ring[Val] {
 	if r.next == nil {
 		return r.init()
 	}
@@ -27,7 +27,7 @@ func (r *Ring(Val)) Next() *Ring(Val) {
 }
 
 // Prev returns the previous ring element. r must not be empty.
-func (r *Ring(Val)) Prev() *Ring(Val) {
+func (r *Ring[Val]) Prev() *Ring[Val] {
 	if r.next == nil {
 		return r.init()
 	}
@@ -37,7 +37,7 @@ func (r *Ring(Val)) Prev() *Ring(Val) {
 // Move moves n % r.Len() elements backward (n < 0) or forward (n >= 0)
 // in the ring and returns that ring element. r must not be empty.
 //
-func (r *Ring(Val)) Move(n int) *Ring(Val) {
+func (r *Ring[Val]) Move(n int) *Ring[Val] {
 	if r.next == nil {
 		return r.init()
 	}
@@ -55,14 +55,14 @@ func (r *Ring(Val)) Move(n int) *Ring(Val) {
 }
 
 // New creates a ring of n elements.
-func New(type Val)(n int) *Ring(Val) {
+func New[type Val](n int) *Ring[Val] {
 	if n <= 0 {
 		return nil
 	}
-	r := new(Ring(Val))
+	r := new(Ring[Val])
 	p := r
 	for i := 1; i < n; i++ {
-		p.next = &Ring(Val){prev: p}
+		p.next = &Ring[Val]{prev: p}
 		p = p.next
 	}
 	p.next = r
@@ -86,7 +86,7 @@ func New(type Val)(n int) *Ring(Val) {
 // after r. The result points to the element following the
 // last element of s after insertion.
 //
-func (r *Ring(Val)) Link(s *Ring(Val)) *Ring(Val) {
+func (r *Ring[Val]) Link(s *Ring[Val]) *Ring[Val] {
 	n := r.Next()
 	if s != nil {
 		p := s.Prev()
@@ -104,7 +104,7 @@ func (r *Ring(Val)) Link(s *Ring(Val)) *Ring(Val) {
 // at r.Next(). If n % r.Len() == 0, r remains unchanged.
 // The result is the removed subring. r must not be empty.
 //
-func (r *Ring(Val)) Unlink(n int) *Ring(Val) {
+func (r *Ring[Val]) Unlink(n int) *Ring[Val] {
 	if n <= 0 {
 		return nil
 	}
@@ -114,7 +114,7 @@ func (r *Ring(Val)) Unlink(n int) *Ring(Val) {
 // Len computes the number of elements in ring r.
 // It executes in time proportional to the number of elements.
 //
-func (r *Ring(Val)) Len() int {
+func (r *Ring[Val]) Len() int {
 	n := 0
 	if r != nil {
 		n = 1
@@ -127,7 +127,7 @@ func (r *Ring(Val)) Len() int {
 
 // Do calls function f on each element of the ring, in forward order.
 // The behavior of Do is undefined if f changes *r.
-func (r *Ring(Val)) Do(f func(Val)) {
+func (r *Ring[Val]) Do(f func(Val)) {
 	if r != nil {
 		f(r.Value)
 		for p := r.Next(); p != r; p = p.next {
