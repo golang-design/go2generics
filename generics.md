@@ -1,6 +1,6 @@
 # A Summary of Go Generics Research
 
-> Last updates: March 2020
+> Last updates: Aug 2020
 >
 > Author: Changkun Ou
 
