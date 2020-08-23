@@ -23,6 +23,7 @@ One must read papers for digging the intrinsic properties of the generics design
 - [Greenman et al 2014] Greenman, Ben, Fabian Muehlboeck, and Ross Tate. "Getting F-bounded polymorphism into shape." *ACM SIGPLAN Notices* 49.6 (2014): 89-99. https://www.cs.cornell.edu/~fabianm/papers/shapes-pldi14-tr.pdf
 - [Zhang et al 2015] Zhang, Yizhou, et al. "Lightweight, flexible object-oriented generics." Proceedings of the 36th ACM SIGPLAN Conference on Programming Language Design and Implementation. 2015. https://www.cs.cornell.edu/~yizhou/papers/genus-pldi2015.pdf
 - [Zhang and Myers 2017] Zhang, Yizhou, and Andrew C. Myers. "Familia: unifying interfaces, type classes, and family polymorphism." *Proceedings of the ACM on Programming Languages* 1.OOPSLA (2017): 1-31. https://www.cs.cornell.edu/andru/papers/familia/familia.pdf
+- [Griesemer et al 2020] Griesemer, Robert, et al. "Featherweight Go." arXiv preprint arXiv:2005.11710 (2020). https://arxiv.org/abs/2005.11710
 
 ## Go Proposals
 
@@ -36,6 +37,8 @@ One must read papers for digging the intrinsic properties of the generics design
 - [Taylor 2016] Ian Lance Taylor. "Go should have generics." golang/proposals, January 2011. https://github.com/golang/proposal/blob/b571c3273d2c6988d24a22dd1c529387ff05962a/design/15292-generics.md Updated: April 2016. https://github.com/golang/proposal/blob/master/design/15292-generics.md
 - [Cox 2018] Russ Cox. "Generics — Problem Overview." golang/proposals, August 27, 2018. https://github.com/golang/proposal/blob/master/design/go2draft-generics-overview.md
 - [Taylor and Griesemer 2019] Ian Lance Taylor, Robert Griesemer. "Contracts — Draft Design." golang/proposals, August 27, 2018, Updated: July 31, 2019. https://github.com/golang/proposal/blob/master/design/go2draft-contracts.md
+- [Taylor and Griesemer 2020] Ian Lance Taylor, Robert Griesemer. "Type Parameters - Draft Design
+." golang/proposals, June 16, 2020, Updated: August 21, 2020. https://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md
 
 ## C++ Proposals
 
