@@ -7,13 +7,9 @@ package notsupport
 // This file illustrates what's impossible in the current
 // contract design - variadic generics.
 
-import (
-	"fmt"
+import "fmt"
 
-	"github.com/changkun/go2generics/contracts"
-)
-
-type Tuple (type Ts ...contracts.Comparable) struct {
+type Tuple (type Ts ...comparable) struct {
 	elements ...Ts
 }
 
