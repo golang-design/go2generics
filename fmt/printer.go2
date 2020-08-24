@@ -1,0 +1,17 @@
+package fmt
+
+import "fmt"
+
+// Print prints the elements of a slice.
+// It should be possible to call this with any slice value.
+func Print[type T](s []T) {
+	for _, v := range s {
+		fmt.Println(v)
+	}
+}
+
+func Pirnt[type T](s ...T) {
+	for _, v := range s {
+		fmt.Println(v)
+	}
+}
