@@ -4,8 +4,8 @@ package main
 //
 // 2020-04-10
 
-contract Ordered(T) {
-	*T Less(*T)
+type Ordered interface {
+	type *T Less(*T)
 }
 
 func main() {}
