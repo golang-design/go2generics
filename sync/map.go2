@@ -86,6 +86,7 @@ func (m *Map[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 		e, ok = read.m[key]
 		if !ok && read.amended {
 			e, ok = m.dirty[key]
+			delete(m.dirty, key)
 			m.missLocked()
 		}
 		m.mu.Unlock()
