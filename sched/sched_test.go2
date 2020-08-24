@@ -15,6 +15,7 @@ import (
 )
 
 type Future [type R interface{}] struct {
+	Err error
 	value atomic.Value
 }
 
@@ -22,7 +23,7 @@ type Future [type R interface{}] struct {
 func (f *Future[R]) Get() R {
 	var v interface{}
 	// spin until value is stored in future.value
-	for ; v == nil; v = f.value.Load() {
+	for ; v == nil && f.Err == nil; v = f.value.Load() {
 		runtime.Gosched()
 	}
 	return v.(R)
@@ -34,7 +35,7 @@ func (f *Future[R]) put(v R) {
 
 
 // Task interface for sched
-type Task [type R interface{}] interface {
+type Task [type R] interface {
 	// GetID must returns a unique ID for all of the scheduled task.
 	GetID() (id string)
 	// GetExecution returns the time for task execution.
@@ -240,11 +241,9 @@ func (s *sched[R, T]) arrival(t *task[R]) {
 func (s *sched[R, T]) execute(t *task[R]) {
 	defer func() {
 		if r := recover(); r != nil {
-			// TODO: ???
-			// rr := fmt.Errorf(
-			// 	"sched: task %s panic while executing, reason: %v",
-			// 	t.value.GetID(), r)
-			t.future.put(r.(R))
+			t.future.Err = fmt.Errorf(
+				"sched: task %s panic while executing, reason: %v",
+				t.value.GetID(), r)
 		}
 	}()
 
@@ -259,11 +258,6 @@ func (s *sched[R, T]) execute(t *task[R]) {
 		s.reschedule(t, t.value.GetRetryTime())
 		return
 	}
-	// TODO: avoid nil result, should i?
-	// if result == nil {
-	// 	result = fmt.Sprintf("sched: task %s success with nil return",
-	// 		t.value.GetID())
-	// }
 	t.future.put(result)
 }
 

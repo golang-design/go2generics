@@ -29,14 +29,14 @@ import (
 //line sched_test.go2:1
 )
 
-//line sched_test.go2:399
+//line sched_test.go2:393
 type CustomTask struct {
 	Public    string
 	id        string
 	execution time.Time
 }
 
-//line sched_test.go2:406
+//line sched_test.go2:400
 func NewCustomTask(id string, e time.Time) *CustomTask {
 	return &CustomTask{
 		Public:    "not nil",
@@ -45,52 +45,52 @@ func NewCustomTask(id string, e time.Time) *CustomTask {
 	}
 }
 
-//line sched_test.go2:415
+//line sched_test.go2:409
 func (t *CustomTask) GetID() (id string) {
 	id = t.id
 	return
 }
 
-//line sched_test.go2:421
+//line sched_test.go2:415
 func (t *CustomTask) GetExecution() (execute time.Time) {
 	execute = t.execution
 	return
 }
 
-//line sched_test.go2:427
+//line sched_test.go2:421
 func (t *CustomTask) GetTimeout() (executeTimeout time.Duration) {
 	return time.Second
 }
 
-//line sched_test.go2:432
+//line sched_test.go2:426
 func (t *CustomTask) GetRetryTime() time.Time {
 	return time.Now().UTC().Add(time.Second)
 }
 
-//line sched_test.go2:437
+//line sched_test.go2:431
 func (t *CustomTask) SetID(id string) {
 	t.id = id
 }
 
-//line sched_test.go2:442
+//line sched_test.go2:436
 func (t *CustomTask) IsValidID() bool {
 	return true
 }
 
-//line sched_test.go2:447
+//line sched_test.go2:441
 func (t *CustomTask) SetExecution(current time.Time) (old time.Time) {
 	old = t.execution
 	t.execution = current
 	return
 }
 
-//line sched_test.go2:454
+//line sched_test.go2:448
 func (t *CustomTask) Execute() (r string, retry bool, fail error) {
 	O.Push(t.id)
 	return fmt.Sprintf("execute task %s.", t.id), false, nil
 }
 
-//line sched_test.go2:460
+//line sched_test.go2:454
 func TestSchedMasiveSchedule(t *testing.T) {
 	O.Clear()
 	nTasks := 100
@@ -118,10 +118,10 @@ func TestSchedMasiveSchedule(t *testing.T) {
 	}
 }
 
-//line sched_test.go2:488
+//line sched_test.go2:482
 var O = Order{}
 
-//line sched_test.go2:491
+//line sched_test.go2:485
 type Order struct {
 	mu    sync.Mutex
 	order []string
@@ -129,56 +129,56 @@ type Order struct {
 	last  time.Time
 }
 
-//line sched_test.go2:499
+//line sched_test.go2:493
 func (o *Order) Push(s string) {
 	o.mu.Lock()
 	o.order = append(o.order, s)
 	o.mu.Unlock()
 }
 
-//line sched_test.go2:506
+//line sched_test.go2:500
 func (o *Order) IsFirstZero() bool {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.first.IsZero()
 }
 
-//line sched_test.go2:513
+//line sched_test.go2:507
 func (o *Order) SetFirst(t time.Time) {
 	o.mu.Lock()
 	o.first = t
 	o.mu.Unlock()
 }
 
-//line sched_test.go2:520
+//line sched_test.go2:514
 func (o *Order) GetFirst() time.Time {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.first
 }
 
-//line sched_test.go2:527
+//line sched_test.go2:521
 func (o *Order) SetLast(t time.Time) {
 	o.mu.Lock()
 	o.last = t
 	o.mu.Unlock()
 }
 
-//line sched_test.go2:534
+//line sched_test.go2:528
 func (o *Order) GetLast() time.Time {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.last
 }
 
-//line sched_test.go2:541
+//line sched_test.go2:535
 func (o *Order) Get() []string {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.order
 }
 
-//line sched_test.go2:548
+//line sched_test.go2:542
 func (o *Order) Clear() {
 	o.mu.Lock()
 	o.order = []string{}
@@ -186,7 +186,7 @@ func (o *Order) Clear() {
 	o.last = time.Time{}
 	o.mu.Unlock()
 }
-//line sched_test.go2:71
+//line sched_test.go2:72
 func instantiate୦୦NewSched୦string୦୮1sched୮aCustomTask() *instantiate୦୦sched୦string୦୮1sched୮aCustomTask {
 	return &instantiate୦୦sched୦string୦୮1sched୮aCustomTask{
 		timer: unsafe.Pointer(time.NewTimer(0)),
@@ -194,17 +194,18 @@ func instantiate୦୦NewSched୦string୦୮1sched୮aCustomTask() *instantiate
 	}
 }
 
-//line sched_test.go2:76
+//line sched_test.go2:77
 type instantiate୦୦Future୦string struct {
 //line sched_test.go2:18
- value atomic.Value
+ Err   error
+				value atomic.Value
 }
 
-//line sched_test.go2:22
+//line sched_test.go2:23
 func (f *instantiate୦୦Future୦string,) Get() string {
 	var v interface{}
 
-	for ; v == nil; v = f.value.Load() {
+	for ; v == nil && f.Err == nil; v = f.value.Load() {
 		runtime.Gosched()
 	}
 	return v.(string)
@@ -214,9 +215,9 @@ func (f *instantiate୦୦Future୦string,) put(v string) {
 	f.value.Store(v)
 }
 
-//line sched_test.go2:33
+//line sched_test.go2:34
 type instantiate୦୦sched୦string୦୮1sched୮aCustomTask struct {
-//line sched_test.go2:59
+//line sched_test.go2:60
  running uint64
 
 	pausing uint64
@@ -228,20 +229,20 @@ type instantiate୦୦sched୦string୦୮1sched୮aCustomTask struct {
 	tasks *instantiate୦୦taskQueue୦string
 }
 
-//line sched_test.go2:80
+//line sched_test.go2:81
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Stop() {
 				sched0.Pause()
 
-//line sched_test.go2:84
+//line sched_test.go2:85
  for atomic.LoadUint64(&sched0.running) > 0 {
 		runtime.Gosched()
 	}
 
-//line sched_test.go2:89
+//line sched_test.go2:90
  atomic.AddUint64(&sched0.pausing, ^uint64(0))
 }
 
-//line sched_test.go2:93
+//line sched_test.go2:94
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Wait() {
 
 	for sched0.tasks.length() != 0 {
@@ -249,33 +250,33 @@ func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Wait()
 	}
 }
 
-//line sched_test.go2:101
+//line sched_test.go2:102
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Submit(t *CustomTask) *instantiate୦୦Future୦string {
 	return sched0.schedule(t, t.GetExecution())
 }
 
-//line sched_test.go2:106
+//line sched_test.go2:107
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Trigger(t *CustomTask) *instantiate୦୦Future୦string {
 	return sched0.schedule(t, time.Now())
 }
 
-//line sched_test.go2:111
+//line sched_test.go2:112
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Pause() {
 	atomic.AddUint64(&sched0.pausing, 1)
 	sched0.pause()
 }
 
-//line sched_test.go2:118
+//line sched_test.go2:119
 func (sched0 *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) Resume() {
 	atomic.AddUint64(&sched0.pausing, ^uint64(0))
 	sched0.resume()
 }
 
-//line sched_test.go2:124
+//line sched_test.go2:125
 func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) schedule(t *CustomTask, when time.Time) *instantiate୦୦Future୦string {
 				s.pause()
 
-//line sched_test.go2:128
+//line sched_test.go2:129
  if future, ok := s.tasks.update(t, when); ok {
 		s.resume()
 		return future
@@ -318,7 +319,7 @@ func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) setTimer(d 
 			}
 		}
 
-//line sched_test.go2:172
+//line sched_test.go2:173
   if atomic.CompareAndSwapPointer(&s.timer, old,
 			unsafe.Pointer(time.NewTimer(d))) {
 			if old != nil {
@@ -330,7 +331,7 @@ func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) setTimer(d 
 	}
 }
 
-//line sched_test.go2:184
+//line sched_test.go2:185
 func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) pause() {
 	old := atomic.LoadPointer(&s.timer)
 
@@ -364,12 +365,12 @@ func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) resume() {
 
 func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) worker() {
 
-//line sched_test.go2:218
+//line sched_test.go2:219
  if atomic.LoadUint64(&s.pausing) > 0 {
 		return
 	}
 
-//line sched_test.go2:224
+//line sched_test.go2:225
  task := s.tasks.pop()
 	if task == nil {
 		return
@@ -389,13 +390,13 @@ func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) arrival(t *
 func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) execute(t *instantiate୦୦task୦string,) {
 	defer func() {
 		if r := recover(); r != nil {
-
-//line sched_test.go2:247
-   t.future.put(r.(string))
+			t.future.Err = fmt.Errorf(
+				"sched: task %s panic while executing, reason: %v",
+				t.value.GetID(), r)
 		}
 	}()
 
-//line sched_test.go2:252
+//line sched_test.go2:251
  if t.value.GetExecution().After(time.Now()) {
 
 		s.reschedule(t, t.value.GetExecution())
@@ -406,12 +407,10 @@ func (s *instantiate୦୦sched୦string୦୮1sched୮aCustomTask,) execute(t *
 		s.reschedule(t, t.value.GetRetryTime())
 		return
 	}
-
-//line sched_test.go2:267
- t.future.put(result)
+	t.future.put(result)
 }
 
-//line sched_test.go2:281
+//line sched_test.go2:275
 func instantiate୦୦newTaskQueue୦string() *instantiate୦୦taskQueue୦string {
 	return &instantiate୦୦taskQueue୦string{
 		heap:   &instantiate୦୦taskHeap୦string{},
@@ -419,15 +418,15 @@ func instantiate୦୦newTaskQueue୦string() *instantiate୦୦taskQueue୦stri
 	}
 }
 
-//line sched_test.go2:286
+//line sched_test.go2:280
 type instantiate୦୦taskQueue୦string struct {
-//line sched_test.go2:276
+//line sched_test.go2:270
  heap   *instantiate୦୦taskHeap୦string
 				lookup map[string]*instantiate୦୦task୦string
 				mu     sync.Mutex
 }
 
-//line sched_test.go2:289
+//line sched_test.go2:283
 func (m *instantiate୦୦taskQueue୦string,) length() (l int) {
 	m.mu.Lock()
 	l = m.heap.Len()
@@ -435,7 +434,7 @@ func (m *instantiate୦୦taskQueue୦string,) length() (l int) {
 	return
 }
 
-//line sched_test.go2:297
+//line sched_test.go2:291
 func (m *instantiate୦୦taskQueue୦string,) push(t *instantiate୦୦task୦string,) *instantiate୦୦Future୦string {
 	m.mu.Lock()
 	heap.Push(m.heap, t)
@@ -444,7 +443,7 @@ func (m *instantiate୦୦taskQueue୦string,) push(t *instantiate୦୦task୦s
 	return t.future
 }
 
-//line sched_test.go2:306
+//line sched_test.go2:300
 func (m *instantiate୦୦taskQueue୦string,) pop() *instantiate୦୦task୦string {
 	m.mu.Lock()
 
@@ -459,7 +458,7 @@ func (m *instantiate୦୦taskQueue୦string,) pop() *instantiate୦୦task୦st
 	return item
 }
 
-//line sched_test.go2:321
+//line sched_test.go2:315
 func (m *instantiate୦୦taskQueue୦string,) peek() (t instantiate୦୦Task୦string,) {
 	m.mu.Lock()
 
@@ -472,7 +471,7 @@ func (m *instantiate୦୦taskQueue୦string,) peek() (t instantiate୦୦Task�
 	return
 }
 
-//line sched_test.go2:334
+//line sched_test.go2:328
 func (m *instantiate୦୦taskQueue୦string,) update(t instantiate୦୦Task୦string, when time.Time) (*instantiate୦୦Future୦string, bool) {
 	m.mu.Lock()
 	item, ok := m.lookup[t.GetID()]
@@ -488,25 +487,25 @@ func (m *instantiate୦୦taskQueue୦string,) update(t instantiate୦୦Task୦
 	return item.future, true
 }
 
-//line sched_test.go2:361
+//line sched_test.go2:355
 func instantiate୦୦newTaskItem୦string(t instantiate୦୦Task୦string, when time.Time) *instantiate୦୦task୦string {
 	return &instantiate୦୦task୦string{value: t, priority: when, future: &instantiate୦୦Future୦string{}}
 }
 
-//line sched_test.go2:363
+//line sched_test.go2:357
 type instantiate୦୦task୦string struct {
-//line sched_test.go2:351
+//line sched_test.go2:345
  value instantiate୦୦Task୦string
 
-//line sched_test.go2:355
+//line sched_test.go2:349
  index int
 	priority time.Time
 	future   *instantiate୦୦Future୦string
 }
-//line sched_test.go2:358
+//line sched_test.go2:352
 type instantiate୦୦taskHeap୦string []*instantiate୦୦task୦string
 
-//line sched_test.go2:367
+//line sched_test.go2:361
 func (pq instantiate୦୦taskHeap୦string,) Len() int {
 	return len(pq)
 }
@@ -535,40 +534,40 @@ func (pq *instantiate୦୦taskHeap୦string,) Push(x interface{}) {
 	*pq = append(*pq, item)
 }
 
-//line sched_test.go2:393
+//line sched_test.go2:387
 type instantiate୦୦Task୦string interface {
-//line sched_test.go2:39
+//line sched_test.go2:40
  GetID() (id string)
 
 				GetExecution() (execute time.Time)
 
 				GetRetryTime() (execute time.Time)
 
-//line sched_test.go2:46
+//line sched_test.go2:47
  Execute() (result string, retry bool, fail error)
 }
 
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = heap.Fix
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = context.Background
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = fmt.Errorf
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = reflect.Append
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = runtime.BlockProfile
 
-//line sched_test.go2:47
+//line sched_test.go2:48
 type _ sync.Cond
 
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = atomic.AddInt32
-//line sched_test.go2:47
+//line sched_test.go2:48
 var _ = testing.AllocsPerRun
 
-//line sched_test.go2:47
+//line sched_test.go2:48
 const _ = time.ANSIC
 
-//line sched_test.go2:47
+//line sched_test.go2:48
 type _ unsafe.Pointer
