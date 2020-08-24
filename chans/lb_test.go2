@@ -5,32 +5,9 @@
 package chans
 
 import (
-	"sync"
-	"testing"
 	"math/rand"
+	"testing"
 )
-
-// Fanin implements a generic fan-in for variadic channels.
-func Fanin(type T)(chans ...<-chan T) <-chan T {
-	buf := 0
-	for _, ch := range chans {
-		if len(ch) > buf { buf = len(ch) }
-	}
-	out := make(chan T, buf)
-	wg := sync.WaitGroup{}
-	wg.Add(len(chans))
-	for _, ch := range chans {
-		go func(ch <-chan T) {
-			for v := range ch { out <- v }
-			wg.Done()
-		}(ch)
-	}
-	go func() {
-		wg.Wait()
-		close(out)
-	}()
-	return out
-}
 
 func getInputChan() <-chan int {
 	input := make(chan int, 20)
