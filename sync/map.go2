@@ -10,20 +10,15 @@ import (
 	"unsafe"
 )
 
-contract hashable(T1, T2) {
-	T1 interface{}
-	T2 interface{}
-}
-
 // Map is a type-safe concurrent-safe map[k]v container.
-type Map(type K, V hashable(K, V)) struct {
+type Map[type K comparable, V interface{}] struct {
 	mu sync.Mutex
 	read atomic.Value // readOnly
 	dirty map[K]*entry
 	misses int
 }
 
-type readOnly(type K, V hashable(K, V)) struct {
+type readOnly[type K comparable, V interface{}] struct {
 	m       map[K]*entry
 	amended bool // true if the dirty map contains some key not in m.
 }
@@ -38,12 +33,12 @@ func newEntry(i interface{}) *entry {
 	return &entry{p: unsafe.Pointer(&i)}
 }
 
-func (m *Map(K, V)) Load(key K) (value V, ok bool) {
-	read, _ := m.read.Load().(readOnly(K, V))
+func (m *Map[K, V]) Load(key K) (value V, ok bool) {
+	read, _ := m.read.Load().(readOnly[K, V])
 	e, ok := read.m[key]
 	if !ok && read.amended {
 		m.mu.Lock()
-		read, _ = m.read.Load().(readOnly(K, V))
+		read, _ = m.read.Load().(readOnly[K, V])
 		e, ok = read.m[key]
 		if !ok && read.amended {
 			e, ok = m.dirty[key]
@@ -52,7 +47,7 @@ func (m *Map(K, V)) Load(key K) (value V, ok bool) {
 		m.mu.Unlock()
 	}
 	if !ok {
-		return nil, false
+		return
 	}
 	v, loaded := e.load()
 	ok = loaded
@@ -68,26 +63,26 @@ func (e *entry) load() (value interface{}, ok bool) {
 	return *(*interface{})(p), true
 }
 
-func (m *Map(K, V)) missLocked() {
+func (m *Map[K, V]) missLocked() {
 	m.misses++
 	if m.misses < len(m.dirty) {
 		return
 	}
-	m.read.Store(readOnly(K, V){m: m.dirty})
+	m.read.Store(readOnly[K, V]{m: m.dirty})
 	m.dirty = nil
 	m.misses = 0
 }
 
-func (m *Map(K, V)) Delete(key K) {
+func (m *Map[K, V]) Delete(key K) {
 	m.LoadAndDelete(key)
 }
 
-func (m *Map(K, V)) LoadAndDelete(key K) (value V, loaded bool) {
-	read, _ := m.read.Load().(readOnly(K, V))
+func (m *Map[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
+	read, _ := m.read.Load().(readOnly[K, V])
 	e, ok := read.m[key]
 	if !ok && read.amended {
 		m.mu.Lock()
-		read, _ = m.read.Load().(readOnly(K, V))
+		read, _ = m.read.Load().(readOnly[K, V])
 		e, ok = read.m[key]
 		if !ok && read.amended {
 			e, ok = m.dirty[key]
@@ -101,7 +96,7 @@ func (m *Map(K, V)) LoadAndDelete(key K) (value V, loaded bool) {
 		loaded = ok
 		return
 	}
-	return nil, false
+	return
 }
 
 func (e *entry) delete() (value interface{}, ok bool) {
@@ -116,8 +111,8 @@ func (e *entry) delete() (value interface{}, ok bool) {
 	}
 }
 
-func (m *Map(K, V)) LoadOrStore(key K, value V) (V, bool) {
-	read, _ := m.read.Load().(readOnly(K, V))
+func (m *Map[K, V]) LoadOrStore(key K, value V) (V, bool) {
+	read, _ := m.read.Load().(readOnly[K, V])
 	if e, ok := read.m[key]; ok {
 		actual, loaded, ok := e.tryLoadOrStore(value)
 		if ok {
@@ -126,7 +121,7 @@ func (m *Map(K, V)) LoadOrStore(key K, value V) (V, bool) {
 	}
 
 	m.mu.Lock()
-	read, _ = m.read.Load().(readOnly(K, V))
+	read, _ = m.read.Load().(readOnly[K, V])
 	if e, ok := read.m[key]; ok {
 		if e.unexpungeLocked() {
 			m.dirty[key] = e
@@ -142,12 +137,12 @@ func (m *Map(K, V)) LoadOrStore(key K, value V) (V, bool) {
 	} else {
 		if !read.amended {
 			m.dirtyLocked()
-			m.read.Store(readOnly(K, V){m: read.m, amended: true})
+			m.read.Store(readOnly[K, V]{m: read.m, amended: true})
 		}
 		m.dirty[key] = newEntry(value)
 		actual, loaded := value, false
 		m.mu.Unlock()
-		return actual.(V), loaded
+		return actual, loaded
 	}
 }
 
@@ -179,12 +174,12 @@ func (e *entry) unexpungeLocked() (wasExpunged bool) {
 	return atomic.CompareAndSwapPointer(&e.p, expunged, nil)
 }
 
-func (m *Map(K, V)) dirtyLocked() {
+func (m *Map[K, V]) dirtyLocked() {
 	if m.dirty != nil {
 		return
 	}
 
-	read, _ := m.read.Load().(readOnly(K, V))
+	read, _ := m.read.Load().(readOnly[K, V])
 	m.dirty = make(map[K]*entry, len(read.m))
 	for k, e := range read.m {
 		if !e.tryExpungeLocked() {
@@ -204,21 +199,21 @@ func (e *entry) tryExpungeLocked() (isExpunged bool) {
 	return p == expunged
 }
 
-func (m *Map(K, V)) Range(f func(key K, value V) bool) {
+func (m *Map[K, V]) Range(f func(key K, value V) bool) {
 	// We need to be able to iterate over all of the keys that were already
 	// present at the start of the call to Range.
 	// If read.amended is false, then read.m satisfies that property without
 	// requiring us to hold m.mu for a long time.
-	read, _ := m.read.Load().(readOnly(K, V))
+	read, _ := m.read.Load().(readOnly[K, V])
 	if read.amended {
 		// m.dirty contains keys not in read.m. Fortunately, Range is already O(N)
 		// (assuming the caller does not break out early), so a call to Range
 		// amortizes an entire copy of the map: we can promote the dirty copy
 		// immediately!
 		m.mu.Lock()
-		read, _ = m.read.Load().(readOnly(K, V))
+		read, _ = m.read.Load().(readOnly[K, V])
 		if read.amended {
-			read = readOnly(K, V){m: m.dirty}
+			read = readOnly[K, V]{m: m.dirty}
 			m.read.Store(read)
 			m.dirty = nil
 			m.misses = 0
@@ -231,21 +226,21 @@ func (m *Map(K, V)) Range(f func(key K, value V) bool) {
 		if !ok {
 			continue
 		}
-		if !f(k.(K), v.(V)) {
+		if !f(k, v.(V)) {
 			break
 		}
 	}
 }
 
-func (m *Map(K, V)) Store(key K, value V) {
-	read, _ := m.read.Load().(readOnly(K, V))
+func (m *Map[K, V]) Store(key K, value V) {
+	read, _ := m.read.Load().(readOnly[K, V])
 	vv := interface{}(value)
 	if e, ok := read.m[key]; ok && e.tryStore(&vv) {
 		return
 	}
 
 	m.mu.Lock()
-	read, _ = m.read.Load().(readOnly(K, V))
+	read, _ = m.read.Load().(readOnly[K, V])
 	if e, ok := read.m[key]; ok {
 		if e.unexpungeLocked() {
 			m.dirty[key] = e
@@ -258,7 +253,7 @@ func (m *Map(K, V)) Store(key K, value V) {
 	} else {
 		if !read.amended {
 			m.dirtyLocked()
-			m.read.Store(readOnly(K, V){m: read.m, amended: true})
+			m.read.Store(readOnly[K, V]{m: read.m, amended: true})
 		}
 		m.dirty[key] = newEntry(value)
 	}

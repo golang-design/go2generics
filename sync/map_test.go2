@@ -88,7 +88,7 @@ func applyCalls(m mapInterface, calls []mapCall) (results []mapResult, final map
 }
 
 func applyMap(calls []mapCall) ([]mapResult, map[interface{}]interface{}) {
-	return applyCalls(new(Map(interface{}, interface{})), calls)
+	return applyCalls(new(Map[interface{}, interface{}]), calls)
 }
 
 func applyRWMutexMap(calls []mapCall) ([]mapResult, map[interface{}]interface{}) {
@@ -114,7 +114,7 @@ func TestMapMatchesDeepCopy(t *testing.T) {
 func TestConcurrentRange(t *testing.T) {
 	const mapSize = 1 << 10
 
-	m := new(Map(interface{}, interface{}))
+	m := new(Map[interface{}, interface{}])
 	for n := int64(1); n <= mapSize; n++ {
 		m.Store(n, int64(n))
 	}
