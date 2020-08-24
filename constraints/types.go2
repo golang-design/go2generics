@@ -1,0 +1,39 @@
+package constraints
+
+// Ordered is a type constraint that matches all ordered types.
+// (An ordered type is one that supports the < <= >= > operators.)
+// In practice this type constraint would likely be defined in
+// a standard library package.
+type Ordered interface {
+	type int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64, uintptr,
+		float32, float64,
+		string
+}
+
+type TwoComparable[type K, V] interface {
+	comparable(K)
+	comparable(V)
+}
+
+type Integer interface {
+	type int8, int16, int32, int64, int,
+		uint8, uint16, uint32, uint64, uint
+}
+
+type Signed interface {
+	type int, int8, int16, int32, int64
+}
+
+type Unsigned interface {
+	type uint, uint8, uint16, uint32, uint64, uintptr
+}
+
+type Adder[type T] interface {
+	Add(T) T
+}
+
+type FloatComplex[type F, C] interface {
+	F float32, float64
+	C complex64, complex128
+}

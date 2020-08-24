@@ -1,0 +1,15 @@
+package constraints
+
+// An interface specifies methods and types for each of the
+// type parameters it constrains.
+type Stringer interface {
+	String() string
+}
+
+type PrintableStringer[type T Stringer] interface {
+	T Print()
+}
+
+type Sequence interface {
+	type string, []byte
+}
