@@ -81,15 +81,3 @@ func Reverse[type T](list []T) {
 		j--
 	}
 }
-
-func Prints[type T](s []T) {
-	for _, v := range s {
-		fmt.Println(v)
-	}
-}
-
-func Pirnts[type T](s ...T) {
-	for _, v := range s {
-		fmt.Println(v)
-	}
-}

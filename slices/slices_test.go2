@@ -1,7 +1,1 @@
 package slices
-
-import "testing"
-
-func TestPrint(t *testing.T) {
-	Prints([]int{1, 2, 3})
-}
