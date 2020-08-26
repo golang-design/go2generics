@@ -213,11 +213,13 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) Load(key
 	}
 	v, loaded := e.load()
 	ok = loaded
-	value = v.(interface{})
+	if ok {
+		value = v.(interface{})
+	}
 	return
 }
 
-//line map.go2:66
+//line map.go2:68
 func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) missLocked() {
 	m.misses++
 	if m.misses < len(m.dirty) {
@@ -248,23 +250,25 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) LoadAndD
 	}
 	if ok {
 		v, ok := e.delete()
-		value = v.(interface{})
+		if ok {
+			value = v.(interface{})
+		}
 		loaded = ok
 		return
 	}
 	return
 }
 
-//line map.go2:115
+//line map.go2:119
 func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) LoadOrStore(key interface{},
 
-//line map.go2:115
+//line map.go2:119
  value interface{},
 
-//line map.go2:115
+//line map.go2:119
 ) (interface{},
 
-//line map.go2:115
+//line map.go2:119
  bool) {
 	read, _ := m.read.Load().(instantiate୦୦readOnly୦interface୮4୮5୦interface୮4୮5)
 	if e, ok := read.m[key]; ok {
@@ -300,7 +304,7 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) LoadOrSt
 	}
 }
 
-//line map.go2:178
+//line map.go2:182
 func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) dirtyLocked() {
 	if m.dirty != nil {
 		return
@@ -315,20 +319,20 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) dirtyLoc
 	}
 }
 
-//line map.go2:203
+//line map.go2:207
 func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) Range(f func(key interface{},
 
-//line map.go2:203
+//line map.go2:207
  value interface{},
 
-//line map.go2:203
+//line map.go2:207
 ) bool) {
 
-//line map.go2:208
+//line map.go2:212
  read, _ := m.read.Load().(instantiate୦୦readOnly୦interface୮4୮5୦interface୮4୮5)
 	if read.amended {
 
-//line map.go2:214
+//line map.go2:218
   m.mu.Lock()
 		read, _ = m.read.Load().(instantiate୦୦readOnly୦interface୮4୮5୦interface୮4୮5)
 		if read.amended {
@@ -353,10 +357,10 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) Range(f 
 
 func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) Store(key interface{},
 
-//line map.go2:236
+//line map.go2:240
  value interface{},
 
-//line map.go2:236
+//line map.go2:240
 ) {
 	read, _ := m.read.Load().(instantiate୦୦readOnly୦interface୮4୮5୦interface୮4୮5)
 	vv := interface{}(value)
@@ -385,7 +389,7 @@ func (m *instantiate୦୦Map୦interface୮4୮5୦interface୮4୮5,) Store(ke
 	m.mu.Unlock()
 }
 
-//line map.go2:262
+//line map.go2:266
 type instantiate୦୦readOnly୦interface୮4୮5୦interface୮4୮5 struct {
 //line map.go2:22
  m       map[interface{}]*entry

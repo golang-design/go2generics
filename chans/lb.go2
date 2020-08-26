@@ -10,7 +10,7 @@ import (
 )
 
 // Fanin implements a generic fan-in for variadic channels.
-func Fanin[type T](chans ...<-chan T) <-chan T {
+func Fanin[T any](chans ...<-chan T) <-chan T {
 	buf := 0
 	for _, ch := range chans {
 		if len(ch) > buf { buf = len(ch) }
@@ -32,7 +32,7 @@ func Fanin[type T](chans ...<-chan T) <-chan T {
 }
 
 // Fanout implements a generic fan-out for variadic channels
-func Fanout[type T](randomizer func(max int) int, In <-chan T, Outs ...chan T) {
+func Fanout[T any](randomizer func(max int) int, In <-chan T, Outs ...chan T) {
 	l := len(Outs)
 	for v := range In {
 		i := randomizer(l)
@@ -41,6 +41,6 @@ func Fanout[type T](randomizer func(max int) int, In <-chan T, Outs ...chan T) {
 	}
 }
 
-func LB[type T](randomizer func(max int) int, ins []<-chan T, outs []chan T) {
+func LB[T any](randomizer func(max int) int, ins []<-chan T, outs []chan T) {
 	Fanout(randomizer, Fanin(ins...), outs...)
 }

@@ -11,14 +11,14 @@ import (
 )
 
 // Map is a type-safe concurrent-safe map[k]v container.
-type Map[type K comparable, V interface{}] struct {
+type Map[K comparable, V any] struct {
 	mu sync.Mutex
 	read atomic.Value // readOnly
 	dirty map[K]*entry
 	misses int
 }
 
-type readOnly[type K comparable, V interface{}] struct {
+type readOnly[K comparable, V any] struct {
 	m       map[K]*entry
 	amended bool // true if the dirty map contains some key not in m.
 }
@@ -51,7 +51,9 @@ func (m *Map[K, V]) Load(key K) (value V, ok bool) {
 	}
 	v, loaded := e.load()
 	ok = loaded
-	value = v.(V)
+	if ok {
+		value = v.(V)
+	}
 	return
 }
 
@@ -93,7 +95,9 @@ func (m *Map[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 	}
 	if ok {
 		v, ok := e.delete()
-		value = v.(V)
+		if ok {
+			value = v.(V)
+		}
 		loaded = ok
 		return
 	}

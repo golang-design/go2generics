@@ -15,11 +15,6 @@ type Ordered interface {
 		string
 }
 
-type TwoComparable[type K, V] interface {
-	comparable(K)
-	comparable(V)
-}
-
 type Integer interface {
 	type int8, int16, int32, int64, int,
 		uint8, uint16, uint32, uint64, uint
@@ -33,11 +28,10 @@ type Unsigned interface {
 	type uint, uint8, uint16, uint32, uint64, uintptr
 }
 
-type Adder[type T] interface {
+type Adder[T any] interface {
 	Add(T) T
 }
 
-type FloatComplex[type F, C] interface {
-	F float32, float64
-	C complex64, complex128
+type FloatComplex interface {
+	type float32, float64, complex64, complex128
 }

@@ -7,8 +7,6 @@ package slices
 //line sort.go2:5
 import (
 //line sort.go2:5
- "fmt"
-//line sort.go2:5
  "github.com/changkun/go2generics/math"
 //line sort.go2:5
  "sort"
@@ -18,8 +16,7 @@ import (
 )
 
 //line sort.go2:5
-var _ = fmt.Errorf
-
+type Importable୦ int
 //line sort.go2:5
 type _ math.Importable୦
 //line sort.go2:5

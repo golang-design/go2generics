@@ -6,12 +6,12 @@
 package errors
 
 // Try tries a given function and see if it throw any error
-func Try[type T](e func() (T, error)) catch[T] {
+func Try[T any](e func() (T, error)) catch[T] {
 	v, err := e()
 	return catch[T]{err: err, result: v}
 }
 
-type catch[type T] struct {
+type catch[T any] struct {
 	err    error
 	result T
 }

@@ -5,6 +5,6 @@
 package math
 
 // IsNaN reports if f is an number
-func IsNaN[type Elem comparable](e Elem) bool { 
+func IsNaN[Elem comparable](e Elem) bool { 
 	return e != e
 }

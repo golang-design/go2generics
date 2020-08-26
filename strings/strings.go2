@@ -13,7 +13,7 @@ type Stringer interface {
 
 // Stringify calls the String method on each element of s,
 // and returns the results.
-func Stringify[type T Stringer](s []T) (ret []string) {
+func Stringify[T Stringer](s []T) (ret []string) {
 	for _, v := range s {
 		ret = append(ret, v.String())
 	}
@@ -22,7 +22,7 @@ func Stringify[type T Stringer](s []T) (ret []string) {
 
 // Stringify2 converts two slices of different types to strings,
 // and returns the concatenation of all the strings.
-func Stringify2[type T1, T2 Stringer](s1 []T1, s2 []T2) string {
+func Stringify2[T1, T2 Stringer](s1 []T1, s2 []T2) string {
 	r := ""
 	for _, v1 := range s1 {
 		r += v1.String()
@@ -45,7 +45,7 @@ type Plusser interface {
 // number of elements. This will convert each element of s to a string,
 // pass it to the Plus method of the corresponding element of p,
 // and return a slice of the resulting strings.
-func ConcatTo[type S Stringer, P Plusser](s []S, p []P) []string {
+func ConcatTo[S Stringer, P Plusser](s []S, p []P) []string {
 	r := make([]string, len(s))
 	for i, v := range s {
 		r[i] = p[i].Plus(v.String())

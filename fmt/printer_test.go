@@ -19,14 +19,14 @@ func TestPrint(t *testing.T) {
  instantiate୦୦Print୦int([]int{1, 2, 3})
 //line printer_test.go2:7
 }
-//line printer.go2:5
+//line printer.go2:7
 func instantiate୦୦Print୦int(s []int,) {
 	for _, v := range s {
 		fmt.Println(v)
 	}
 }
 
-//line printer.go2:9
+//line printer.go2:11
 var _ = fmt.Errorf
-//line printer.go2:9
+//line printer.go2:11
 var _ = testing.AllocsPerRun

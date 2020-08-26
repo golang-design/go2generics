@@ -10,8 +10,8 @@ type Stringer interface {
 	String() string
 }
 
-type PrintableStringer[type T Stringer] interface {
-	T Print()
+type PrintableStringer[T Stringer] interface {
+	Print()
 }
 
 type Sequence interface {

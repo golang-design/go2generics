@@ -14,7 +14,7 @@ import "runtime"
 //
 // This is a convenient way to exit a goroutine sending values when
 // the receiver stops reading them.
-func Ranger[type T]() (*Sender[T], *Receiver[T]) {
+func Ranger[T any]() (*Sender[T], *Receiver[T]) {
 	c := make(chan T)
 	d := make(chan bool)
 	s := &Sender[T]{values: c, done: d}
@@ -24,7 +24,7 @@ func Ranger[type T]() (*Sender[T], *Receiver[T]) {
 }
 
 // A sender is used to send values to a Receiver.
-type Sender[type T] struct {
+type Sender[T any] struct {
 	values chan<- T
 	done <-chan bool
 }
@@ -47,7 +47,7 @@ func (s *Sender[T]) Close() {
 }
 
 // A Receiver receives values from a Sender.
-type Receiver[type T] struct {
+type Receiver[T any] struct {
 	values <-chan T
 	done chan<- bool
 }

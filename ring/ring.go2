@@ -11,7 +11,7 @@ package ring
 // as nil Ring pointers. The zero value for a Ring is a one-element
 // ring with a nil Value.
 //
-type Ring[type Val] struct {
+type Ring[Val any] struct {
 	next, prev *Ring[Val]
 	Value      Val // for use by client; untouched by this library
 }
@@ -59,7 +59,7 @@ func (r *Ring[Val]) Move(n int) *Ring[Val] {
 }
 
 // New creates a ring of n elements.
-func New[type Val](n int) *Ring[Val] {
+func New[Val any](n int) *Ring[Val] {
 	if n <= 0 {
 		return nil
 	}

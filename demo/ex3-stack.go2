@@ -4,8 +4,8 @@
 
 package main
 
-type Stack[type E] []E
-func NewStack[type E] () Stack[E] {
+type Stack[E any] []E
+func NewStack[E any] () Stack[E] {
 	return Stack[E]{}
 }
 func (s *Stack[E]) Pop() (r E, success bool) {

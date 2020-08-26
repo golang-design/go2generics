@@ -10,7 +10,7 @@ import (
 	"reflect"
 )
 
-type wrapSort[type T] struct {
+type wrapSort[T any] struct {
 	s    []T
 	cmp func(T, T) bool
 }
@@ -19,7 +19,7 @@ func (s wrapSort[T]) Len() int           { return len(s.s) }
 func (s wrapSort[T]) Less(i, j int) bool { return s.cmp(s.s[i], s.s[j]) }
 func (s wrapSort[T]) Swap(i, j int)      { s.s[i], s.s[j] = s.s[j], s.s[i] }
 
-func Sort[type T](s []T, cmp func(T, T) bool) {
+func Sort[T any](s []T, cmp func(T, T) bool) {
 	sort.Sort(wrapSort[T]{s, cmp})
 }
 

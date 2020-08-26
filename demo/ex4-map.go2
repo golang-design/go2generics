@@ -5,14 +5,14 @@
 package main
 
 // naive generic map[k]v
-type Pair[type T1, T2] struct {
+type Pair[T1, T2 any] struct {
 	Key   T1
 	Value T2
 }
-type Map[type T1 comparable, T2 interface{}] struct {
+type Map[T1 comparable, T2 any] struct {
 	s []Pair[T1, T2]
 }
-func NewMap[type T1 comparable, T2 interface{}] () Map[T1, T2] {
+func NewMap[T1 comparable, T2 any] () Map[T1, T2] {
 	return Map[T1, T2]{s: [](Pair[T1, T2]){}}
 }
 func (m *Map[T1, T2]) Set(k T1, v T2) {

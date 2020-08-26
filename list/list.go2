@@ -5,12 +5,12 @@
 package list
 
 // List is a linked list.
-type List[type T] struct {
+type List[T any] struct {
 	head, tail *element[T]
 }
 
 // An element is an entry in a linked list.
-type element[type T] struct {
+type element[T any] struct {
 	next *element[T]
 	val  T
 }
@@ -27,7 +27,7 @@ func (lst *List[T]) Push(v T) {
 }
 
 // Iterator ranges over a list.
-type Iterator[type T] struct {
+type Iterator[T any] struct {
 	next **element[T]
 }
 
@@ -57,7 +57,7 @@ func (it *Iterator[T]) Val() (T, bool) {
 }
 
 // Transform runs a transform function on a list returning a new list.
-func Transform[type T1, T2](lst *List[T1], f func(T1) T2) *List[T2] {
+func Transform[T1, T2 any](lst *List[T1], f func(T1) T2) *List[T2] {
 	ret := &List[T2]{}
 	it := lst.Range()
 	for {

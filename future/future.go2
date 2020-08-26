@@ -9,7 +9,7 @@ import (
 	"runtime"
 )
 
-type Future[type T interface{}] struct {
+type Future[T any] struct {
 	value atomic.Value
 }
 

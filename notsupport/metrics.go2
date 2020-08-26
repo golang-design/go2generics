@@ -9,7 +9,7 @@ type Elements[Ts ...comparable] struct {
 	es ...Ts
 }
 
-type Metric[type Ts ...comparable] struct {
+type Metric[Ts ...comparable] struct {
 	mu sync.Mutex
 	m  map[Elements[Ts...]]int
 }

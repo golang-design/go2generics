@@ -10,7 +10,7 @@ import (
 )
 
 // For debugging - keep around.
-func dump[type Val](r *Ring[Val]) {
+func dump[Val any](r *Ring[Val]) {
 	if r == nil {
 		fmt.Println("empty")
 		return

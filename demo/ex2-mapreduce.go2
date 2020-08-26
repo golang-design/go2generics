@@ -8,14 +8,14 @@ import (
 	"fmt"
 )
 
-func Map[type T1, T2](m func(v T1) T2, s []T1) []T2 {
+func Map[T1, T2 any](m func(v T1) T2, s []T1) []T2 {
 	ret := make([]T2, len(s))
 	for i, v := range s {
 		ret[i] = m(v)
 	}
 	return ret
 }
-func Reduce[type T](m func(x, y T) T, s []T) (ret T) {
+func Reduce[T any](m func(x, y T) T, s []T) (ret T) {
 	switch l := len(s); {
 	case l == 0:
 		return

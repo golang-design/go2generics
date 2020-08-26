@@ -4,7 +4,7 @@
 
 package history
 
-// type parameters
+// constrained type parameters, unified parameter list
 
 type Ordered interface {
 	type int, int8, int16, int32, int64,
@@ -14,7 +14,7 @@ type Ordered interface {
 }
 
 // Max returns the maximum among all parameters
-func Max[type T Ordered](v0 T, vn ...T) T {
+func Max[T Ordered](v0 T, vn ...T) T {
 	switch l := len(vn); {
 	case l == 0:
 		return v0
@@ -30,12 +30,12 @@ func Max[type T Ordered](v0 T, vn ...T) T {
 
 // a more complex example:
 
-type I1 [type P1] interface {
+type I1 [P1 any] interface {
     m1(x P1)
 }
-type I2 [type P1, P2] interface {
+type I2 [P1, P2 any] interface {
     m2(x P1) P2
     type int, float64
 }
 
-func F[type P1 I1[P1], P2 I2[P1, P2]] (x P1, y P2) {}
+func F[P1 I1[P1], P2 I2[P1, P2]] (x P1, y P2) {}

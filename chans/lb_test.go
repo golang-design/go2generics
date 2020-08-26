@@ -17,7 +17,7 @@ import (
 //line lb_test.go2:5
 )
 
-//line lb_test.go2:35
+//line lb_test.go2:12
 func getInputChan() <-chan int {
 	input := make(chan int, 20)
 	numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
@@ -55,20 +55,20 @@ func TestLB(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		outs[i] = make(chan int, 10)
 	}
-//line lb_test.go2:71
+//line lb_test.go2:48
  instantiate୦୦LB୦int(func(m int) int {
-//line lb_test.go2:73
+//line lb_test.go2:50
   return rand.Intn(m)
 	}, ins, outs)
 }
-//line lb_test.go2:14
+//line lb.go2:13
 func instantiate୦୦Fanin୦int(chans ...<-chan int,) <-chan int {
 	buf := 0
 	for _, ch := range chans {
 		if len(ch) > buf {
-//line lb_test.go2:17
+//line lb.go2:16
    buf = len(ch)
-//line lb_test.go2:17
+//line lb.go2:16
   }
 	}
 	out := make(chan int, buf)
@@ -77,9 +77,9 @@ func instantiate୦୦Fanin୦int(chans ...<-chan int,) <-chan int {
 	for _, ch := range chans {
 		go func(ch <-chan int,) {
 			for v := range ch {
-//line lb_test.go2:24
+//line lb.go2:23
     out <- v
-//line lb_test.go2:24
+//line lb.go2:23
    }
 					wg.Done()
 		}(ch)
@@ -90,33 +90,34 @@ func instantiate୦୦Fanin୦int(chans ...<-chan int,) <-chan int {
 	}()
 	return out
 }
-//line lb.go2:21
+
+//line lb.go2:44
 func instantiate୦୦LB୦int(randomizer func(max int) int, ins []<-chan int, outs []chan int,) {
-//line lb.go2:21
+//line lb.go2:44
  instantiate୦୦Fanout୦int(randomizer, instantiate୦୦Fanin୦int(ins...), outs...)
-//line lb.go2:23
+//line lb.go2:46
 }
-//line lb.go2:12
+//line lb.go2:35
 func instantiate୦୦Fanout୦int(randomizer func(max int) int, In <-chan int, Outs ...chan int,) {
 	l := len(Outs)
 	for v := range In {
 		i := randomizer(l)
 		if i < 0 || i > l {
-//line lb.go2:16
+//line lb.go2:39
    i = rand.Intn(l)
-//line lb.go2:16
+//line lb.go2:39
   }
 				go func(v int,) { Outs[i] <- v }(v)
 	}
 }
 
-//line lb.go2:19
+//line lb.go2:42
 var _ = rand.ExpFloat64
-//line lb.go2:19
+//line lb.go2:42
 var _ = runtime.BlockProfile
 
-//line lb.go2:19
+//line lb.go2:42
 type _ sync.Cond
 
-//line lb.go2:19
+//line lb.go2:42
 var _ = testing.AllocsPerRun

@@ -36,7 +36,7 @@ func newEntry(i interface{}) *entry {
 	return &entry{p: unsafe.Pointer(&i)}
 }
 
-//line map.go2:58
+//line map.go2:60
 func (e *entry) load() (value interface{}, ok bool) {
 	p := atomic.LoadPointer(&e.p)
 	if p == nil || p == expunged {
@@ -45,7 +45,7 @@ func (e *entry) load() (value interface{}, ok bool) {
 	return *(*interface{})(p), true
 }
 
-//line map.go2:103
+//line map.go2:107
 func (e *entry) delete() (value interface{}, ok bool) {
 	for {
 		p := atomic.LoadPointer(&e.p)
@@ -58,7 +58,7 @@ func (e *entry) delete() (value interface{}, ok bool) {
 	}
 }
 
-//line map.go2:150
+//line map.go2:154
 func (e *entry) tryLoadOrStore(i interface{}) (actual interface{}, loaded, ok bool) {
 	p := atomic.LoadPointer(&e.p)
 	if p == expunged {
@@ -87,7 +87,7 @@ func (e *entry) unexpungeLocked() (wasExpunged bool) {
 	return atomic.CompareAndSwapPointer(&e.p, expunged, nil)
 }
 
-//line map.go2:192
+//line map.go2:196
 func (e *entry) tryExpungeLocked() (isExpunged bool) {
 	p := atomic.LoadPointer(&e.p)
 	for p == nil {
@@ -99,7 +99,7 @@ func (e *entry) tryExpungeLocked() (isExpunged bool) {
 	return p == expunged
 }
 
-//line map.go2:264
+//line map.go2:268
 func (e *entry) tryStore(i *interface{}) bool {
 	for {
 		p := atomic.LoadPointer(&e.p)
@@ -116,25 +116,25 @@ func (e *entry) storeLocked(i *interface{}) {
 	atomic.StorePointer(&e.p, unsafe.Pointer(i))
 }
 
-//line map.go2:278
+//line map.go2:282
 type Importable୦ int
 
-//line map.go2:278
+//line map.go2:282
 var _ = rand.ExpFloat64
-//line map.go2:278
+//line map.go2:282
 var _ = reflect.Append
-//line map.go2:278
+//line map.go2:282
 var _ = runtime.BlockProfile
 
-//line map.go2:278
+//line map.go2:282
 type _ sync.Cond
 
-//line map.go2:278
+//line map.go2:282
 var _ = atomic.AddInt32
-//line map.go2:278
+//line map.go2:282
 var _ = testing.AllocsPerRun
-//line map.go2:278
+//line map.go2:282
 var _ = quick.Check
 
-//line map.go2:278
+//line map.go2:282
 type _ unsafe.Pointer

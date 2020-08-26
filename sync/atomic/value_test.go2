@@ -11,7 +11,7 @@ import (
 )
 
 func TestValue(t *testing.T) {
-	var v Value(int)
+	var v Value[int]
 	v.Store(42)
 	x := v.Load()
 	if x != 42 {
@@ -25,7 +25,7 @@ func TestValue(t *testing.T) {
 }
 
 func TestValueLarge(t *testing.T) {
-	var v Value(string)
+	var v Value[string]
 	v.Store("foo")
 	x := v.Load()
 	if x != "foo" {
@@ -41,7 +41,7 @@ func TestValueLarge(t *testing.T) {
 func TestValuePanic(t *testing.T) {
 	const nilErr = "sync/atomic: store of nil value into Value"
 	const badErr = "sync/atomic: store of inconsistently typed value into Value"
-	var v Value(interface{})
+	var v Value[interface{}]
 	func() {
 		defer func() {
 			err := recover()
@@ -86,7 +86,7 @@ func TestValueConcurrent(t *testing.T) {
 		N = 1e3
 	}
 	for _, test := range tests {
-		var v Value(interface{})
+		var v Value[interface{}]
 		done := make(chan bool, p)
 		for i := 0; i < p; i++ {
 			go func() {
@@ -118,7 +118,7 @@ func TestValueConcurrent(t *testing.T) {
 }
 
 func BenchmarkValueRead(b *testing.B) {
-	var v Value(*int)
+	var v Value[*int]
 	v.Store(new(int))
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {

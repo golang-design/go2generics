@@ -4,9 +4,9 @@
 
 package sets
 
-type Set[type Elem comparable] map[Elem]struct{}
+type Set[Elem comparable] map[Elem]struct{}
 
-func Make[type Elem comparable]() Set[Elem] {
+func Make[Elem comparable]() Set[Elem] {
 	return make(Set(Elem))
 }
 
@@ -39,7 +39,7 @@ func (s Set[Elem]) Values() []Elem {
 	return r
 }
 
-func Equal[type Elem comparable](s1, s2 Set[Elem]) bool {
+func Equal[Elem comparable](s1, s2 Set[Elem]) bool {
 	if len(s1) != len(s2) {
 		return false
 	}

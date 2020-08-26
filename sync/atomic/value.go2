@@ -7,7 +7,7 @@ package atomic
 import "sync/atomic"
 
 // Value is a type-safe atomic value
-type Value[type T] struct {
+type Value[T any] struct {
 	val atomic.Value
 }
 

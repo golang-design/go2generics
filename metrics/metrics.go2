@@ -9,7 +9,7 @@ package metrics
 import "sync"
 
 // Metric1 accumulates metrics of a single value.
-type Metric1[type T comparable] struct {
+type Metric1[T comparable] struct {
 	mu sync.Mutex
 	m  map[T]int
 }

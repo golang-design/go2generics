@@ -14,7 +14,7 @@ import (
 	"unsafe"
 )
 
-type Future [type R interface{}] struct {
+type Future [R any] struct {
 	Err error
 	value atomic.Value
 }
@@ -35,7 +35,7 @@ func (f *Future[R]) put(v R) {
 
 
 // Task interface for sched
-type Task [type R] interface {
+type Task [R any] interface {
 	// GetID must returns a unique ID for all of the scheduled task.
 	GetID() (id string)
 	// GetExecution returns the time for task execution.
@@ -55,7 +55,7 @@ type Task [type R] interface {
 // the task queue is a priority queue that orders tasks by executing
 // time. The timer is the only time.Timer lives in runtime, it serves
 // the head task in the task queue.
-type sched [type R interface{}, T Task[R]] struct {
+type sched [R any, T Task[R]] struct {
 	// running counts the tasks already starts that cannot be stopped.
 	running uint64 // atomic
 	// pausing is a sign that indicates if sched should stop running.
@@ -69,7 +69,7 @@ type sched [type R interface{}, T Task[R]] struct {
 }
 
 // NewSched returns a scheduler that schedules type T tasks.
-func NewSched[type R interface{}, T Task[R]]() *sched[R, T] {
+func NewSched[R any, T Task[R]]() *sched[R, T] {
 	return &sched[R, T]{
 		timer: unsafe.Pointer(time.NewTimer(0)),
 		tasks: newTaskQueue[R](),
@@ -266,13 +266,13 @@ func (s *sched[R, T]) execute(t *task[R]) {
 // or access key by its value
 //
 // TODO: lock-free
-type taskQueue [type R] struct {
+type taskQueue [R any] struct {
 	heap   *taskHeap[R]
 	lookup map[string]*task[R]
 	mu     sync.Mutex
 }
 
-func newTaskQueue [type R] () *taskQueue[R] {
+func newTaskQueue [R any] () *taskQueue[R] {
 	return &taskQueue[R]{
 		heap:   &taskHeap[R]{},
 		lookup: map[string]*task[R]{},
@@ -341,7 +341,7 @@ func (m *taskQueue[R]) update(t Task[R], when time.Time) (*Future[R], bool) {
 }
 
 // a task is something we manage in a priority queue.
-type task [type R] struct {
+type task [R any] struct {
 	value Task[R] // for storage
 
 	// The index is needed by update and is maintained by the
@@ -352,11 +352,11 @@ type task [type R] struct {
 }
 
 // NewTaskItem creates a new queue item
-func newTaskItem[type R](t Task[R], when time.Time) *task[R] {
+func newTaskItem[R any](t Task[R], when time.Time) *task[R] {
 	return &task[R]{value: t, priority: when, future: &Future[R]{}}
 }
 
-type taskHeap[type R] []*task[R]
+type taskHeap[R any] []*task[R]
 
 func (pq taskHeap[R]) Len() int {
 	return len(pq)

@@ -3,20 +3,20 @@ package maps
 import "github.com/changkun/go2generics/chans"
 
 // OrderedMap is an ordered map.
-type OrderedMap[type K, V] struct {
+type OrderedMap[K, V any] struct {
 	root    *node[K, V]
 	compare func(K, K) int
 }
 
 // node is the type of a node in the binary tree.
-type node[type K, V] struct {
+type node[K, V any] struct {
 	key         K
 	val         V
 	left, right *node[K, V]
 }
 
 // New returns a new map.
-func NewOrderedMap[type K, V](compare func(K, K) int) *OrderedMap[K, V] {
+func NewOrderedMap[K, V any](compare func(K, K) int) *OrderedMap[K, V] {
 	return &OrderedMap[K, V]{compare: compare}
 }
 
@@ -63,7 +63,7 @@ func (m *OrderedMap[K, V]) Find(key K) (V, bool) {
 }
 
 // keyValue is a pair of key and value used when iterating.
-type keyValue[type K, V] struct {
+type keyValue[K, V any] struct {
 	key K
 	val V
 }
@@ -90,7 +90,7 @@ func (m *OrderedMap[K, V]) InOrder() *Iterator[K, V] {
 }
 
 // Iterator is used to iterate over the map.
-type Iterator[type K, V] struct {
+type Iterator[K, V any] struct {
 	r *chans.Receiver[keyValue[K, V]]
 }
 

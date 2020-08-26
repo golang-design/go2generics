@@ -20,6 +20,8 @@ import (
 )
 
 //line orderedmap.go2:1
+type Importable୦ int
+//line orderedmap.go2:1
 type _ chans.Importable୦
 
 //line orderedmap.go2:1

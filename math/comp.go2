@@ -16,7 +16,7 @@ type Ordered interface {
 }
 
 // Min returns the minimum among all parameters
-func Min[type T Ordered](s ...T) T {
+func Min[T Ordered](s ...T) T {
 	if len(s) == 0 {
 		panic("Min of no elements")
 	}
@@ -30,7 +30,7 @@ func Min[type T Ordered](s ...T) T {
 }
 
 // Max returns the maximum among all parameters
-func Max[type T Ordered](v0 T, vn ...T) T {
+func Max[T Ordered](v0 T, vn ...T) T {
 	switch l := len(vn); {
 	case l == 0:
 		return v0
