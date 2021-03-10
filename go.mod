@@ -1,3 +1,3 @@
-module github.com/changkun/go2generics
+module golang.design/x/go2generics
 
-go 1.14
+go 1.16

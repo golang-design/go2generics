@@ -74,4 +74,6 @@ There are some code base that I believe it is good for generics:
 
 ## Licnese
 
-BSD-2-Clause &copy; [Changkun Ou](https://changkun.de)
+BSD-2-Clause
+
+Copyright &copy; 2020-2021 [Changkun Ou](https://changkun.de)
