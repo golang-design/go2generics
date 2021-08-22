@@ -1,13 +1,12 @@
 # go2generics ![](https://changkun.de/urlstat?mode=github&repo=golang-design/go2generics)
 
-English | [中文](./README.cn.md)
+中文 | [English](./README.md)
 
-A chunk of demos for Go generics design (based on type parameters and type sets).
+Go 语言泛型的代码示例（基于类型参数和类型集）
 
-## The Go Compiler with Generics Support
+## 支持泛型的 Go 编译器
 
-The latest [Go tip version](https://pkg.go.dev/golang.org/dl/gotip) supports
-the type parameters and type sets design. To install `gotip`:
+正在开发阶段的 Go 编译器（称之为 [gotip](https://pkg.go.dev/golang.org/dl/gotip)）支持类型参数和类型集编写的泛型代码。可以通过下面的命令进行安装：
 
 ```sh
 $ go get golang.org/dl/gotip
@@ -16,22 +15,20 @@ $ gotip version
 go version devel go1.18-6e50991 Sat Aug 21 18:23:58 2021 +0000 darwin/arm64
 ```
 
-## Standard Package
+## 标准库
 
-The following packages will appear in the Go 1.18 release:
+下面这些包将出现在 Go 1.18 的发行版中：
 
-### Package `constraints`
+### `constraints` 包
 
-This package is from the following discussions:
+该包基于这些提案：
 
 - [golang/go#45458](https://golang.org/issue/45458) proposal: constraints: new package to define standard type parameter constraints
 - [golang/go#47319](https://golang.org/issue/47319) proposal: constraints: new package to define standard type parameter constraints (discussion)
 
-See a possible implementation [here](./std/constraints).
+可以在[这里](./std/constraints)找到一个可能的实现。
 
 ```go
-// Package constraints defines a set of useful constraints to be used
-// with type parameters.
 package constraints
 
 type Signed interface
@@ -45,19 +42,16 @@ type Map[Key comparable, Val any] interface
 type Chan[Elem any] interface
 ```
 
-### Package `slices`
+### `slices` 包
 
-This package is from the following discussions:
+该包基于这些提案：
 
 - [golang/go#45955](https://golang.org/issue/45955) proposal: slices: new package to provide generic slice functions
 - [golang/go#47203](https://golang.org/issue/47203) proposal: slices: new package to provide generic slice functions (discussion)
 
-See a possible implementation [here](./std/slices).
+可以在[这里](./std/slices)找到一个可能的实现。
 
 ```go
-// Package slices defines various functions useful with slices of any type.
-// Unless otherwise specified, these functions all apply to the elements
-// of a slice at index 0 <= i < len(s).
 package slices
 
 import "constraints"
@@ -78,17 +72,16 @@ func Grow[S constraints.Slice[T], T any](s S, n int) S
 func Clip[S constraints.Slice[T], T any](s S) S
 ```
 
-### Package `maps`
+### `maps` 包
 
-This package is from the following discussions:
+该包基于这些提案：
 
 - [golang/go#47649](https://golang.org/issue/47649) proposal: maps: new package to provide generic map functions
 - [golang/go#47330](https://golang.org/issue/47330) proposal: maps: new package to provide generic map functions (discussion)
 
-See a possible implementation [here](./std/maps).
+可以在[这里](./std/maps)找到一个可能的实现。
 
 ```go
-// Package maps defines various functions useful with maps of any type.
 package maps
 
 func Keys[K comparable, V any](m map[K]V) []K
@@ -101,17 +94,15 @@ func Add[K comparable, V any](dst, src map[K]V)
 func Filter[K comparable, V any](m map[K]V, keep func(K, V) bool)
 ```
 
-### Package `container/set`
+### `container/set` 包
 
-This package is from the following discussions:
+该包基于这些提案：
 
 - [golang/go#47331](https://golang.org/issue/47331) proposal: container/set: new package to provide a generic set type (discussion)
 
-See a possible implementation [here](./std/container/set).
-
+可以在[这里](./std/container/set)找到一个可能的实现。
 
 ```go
-// Package set defines a Set type that holds a set of elements.
 package set
 
 type Set[Elem comparable] struct { ... }
@@ -136,44 +127,45 @@ func Intersection[Elem comparable](s1, s2 Set[Elem]) Set[Elem]
 func Difference[Elem comparable](s1, s2 Set[Elem]) Set[Elem]
 ```
 
-### Others (under discussion)
+### 其他 (仍在讨论中)
 
 - [golang/go#47657](https://golang.org/issue/47657) proposal: sync, sync/atomic: add PoolOf, MapOf, ValueOf
 - [golang/go#47632](https://golang.org/issue/47632) proposal: container/heap: add Heap, a heap backed by a slice
 - [golang/go#47619](https://golang.org/issue/47619) proposal: generic functions in the sort package
 
-## Further  Working Examples
+## 更多示例
 
-The current compiler implementation is still under development.
-These further examples can be run without an error:
+出了前面的标准库实现示例之外，仓库中还包含了更多其他场景下的的示例。这些示例可以直接
+通过安装的 gotip 命令执行：
 
 ```
-gotip run demo/ex1-sort.go
-gotip run demo/ex2-mapreduce.go
-gotip run demo/ex3-stack.go
-gotip run demo/ex4-map.go
-cd errors      && gotip test
-cd fmt         && gotip test
-cd future      && gotip test
-cd linalg      && gotip test
-cd list        && gotip test
-cd math        && gotip test
-cd metrics     && gotip test
-cd ring        && gotip test
-cd stack       && gotip test
-cd strings     && gotip test
-cd sync/atomic && gotip test
-cd tree        && gotip test
+$ gotip run demo/ex1-sort.go
+$ gotip run demo/ex2-mapreduce.go
+$ gotip run demo/ex3-stack.go
+$ gotip run demo/ex4-map.go
+$ cd errors      && gotip test
+$ cd fmt         && gotip test
+$ cd future      && gotip test
+$ cd linalg      && gotip test
+$ cd list        && gotip test
+$ cd math        && gotip test
+$ cd metrics     && gotip test
+$ cd ring        && gotip test
+$ cd stack       && gotip test
+$ cd strings     && gotip test
+$ cd sync/atomic && gotip test
+$ cd tree        && gotip test
 ```
 
-## Known Issues
+## 已知的问题
 
-The know issues of the current implementation:
+由于当前 Go 的编译器实现上不完整，目前（2021.08.22）已知这些问题：
 
-- generic slice expressions not yet implemented
-- package import is still problematic
+- 泛型切片表达式尚未实现
+- 公开函数的导出和包的导入还需要完善
+- 更多类型检查相关的完善
 
-These written packages are not runnable yet (will trigger some internal compiler bug):
+更多满足语言规范的代码（暂时）还不能正常编译执行。例如这些目录下的代码：
 
 ```
 chans
@@ -185,13 +177,12 @@ slices
 sync
 ```
 
-## References
+## 进一步阅读
 
-Here are some documents to get familiar with the spirit of generics:
+- Changkun Ou. [Go 语言泛型研究总结](./generics.md). 2020.08. 最后更新 2021.08.
+- Changkun Ou. [Go 2 泛型: 类型参数](https://changkun.de/s/go2generics/). [Go 夜读 第 80 期](https://talkgo.org). 2020 年 3 月 18 日.
 
-- Changkun Ou. [A Summary of Go Generics Research](./generics.md) 2020.08. Last Updates: 2021.08.
-- Changkun Ou. Go 2 Generics: Type Parameters. https://changkun.de/s/go2generics/.
-## Licnese
+## 许可
 
 BSD-2-Clause
 

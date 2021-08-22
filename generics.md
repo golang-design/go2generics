@@ -1,12 +1,11 @@
 # A Summary of Go Generics Research
 
-> Last updates: Aug 2020
+> Last updates: Aug 2021
 >
 > Author: Changkun Ou
 
-This document summarizes a personal research on a selected list of references and relevant discussions regarding the Go generics.
-
-One must be aware of that many discussions are personal opinionated.
+This document summarizes a personal research on a selected list of
+references and relevant discussions regarding the Go generics.
 
 ## Research Paper
 
@@ -39,6 +38,9 @@ One must read papers for digging the intrinsic properties of the generics design
 - [Taylor and Griesemer 2019] Ian Lance Taylor, Robert Griesemer. "Contracts — Draft Design." golang/proposals, August 27, 2018, Updated: July 31, 2019. https://github.com/golang/proposal/blob/master/design/go2draft-contracts.md
 - [Taylor and Griesemer 2020] Ian Lance Taylor, Robert Griesemer. "Type Parameters - Draft Design
 ." golang/proposals, June 16, 2020, Updated: August 21, 2020. https://go.googlesource.com/proposal/+/refs/heads/master/design/go2draft-type-parameters.md
+- [Taylor and Griesemer 2020] Ian Lance Taylor, Robert Griesemer. "Type Switches on Type Parameters." golang/proposals, August 25, 2020. https://go-review.googlesource.com/c/proposal/+/250518
+- [Taylor and Griesemer 2021] Ian Lance Taylor, Robert Griesemer. "Type Parameters Proposal." golang/proposals, March 19, 2021, Updated: August 20, 2021. https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md
+- [Findley and Griesemer 2021] Rob Findley, Robert Griesemer. "Additions to go/ast and go/token to support parameterized functions and types." golang/proposals, Auguest 18, 2021. ttps://github.com/golang/proposal/blob/master/design/47781-parameterized-go-ast.md
 
 ## C++ Proposals
 
@@ -62,7 +64,7 @@ C++ is also considered contracts but different than Go's contract design. Contra
 
 ## Code base
 
-There are some code base that I believe it is good for generics:
+There are some code base (not all) that is good for generics design:
 
 - https://github.com/robpike/filter
 - https://github.com/cheekybits/genny
