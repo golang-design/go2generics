@@ -42,15 +42,6 @@ func TestValuePanic(t *testing.T) {
 	const nilErr = "sync/atomic: store of nil value into Value"
 	const badErr = "sync/atomic: store of inconsistently typed value into Value"
 	var v Value[interface{}]
-	func() {
-		defer func() {
-			err := recover()
-			if err != nilErr {
-				t.Fatalf("inconsistent store panic: got '%v', want '%v'", err, nilErr)
-			}
-		}()
-		v.Store(nil)
-	}()
 	v.Store(42)
 	func() {
 		defer func() {
@@ -60,15 +51,6 @@ func TestValuePanic(t *testing.T) {
 			}
 		}()
 		v.Store("foo")
-	}()
-	func() {
-		defer func() {
-			err := recover()
-			if err != nilErr {
-				t.Fatalf("inconsistent store panic: got '%v', want '%v'", err, nilErr)
-			}
-		}()
-		v.Store(nil)
 	}()
 }
 

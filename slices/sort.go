@@ -45,6 +45,6 @@ func (s sliceFn[Elem]) Less(i, j int) bool { return s.less(s.s[i], s.s[j]) }
 func (s sliceFn[Elem]) Swap(i, j int)      { s.s[i], s.s[j] = s.s[j], s.s[i] }
 
 // SliceFn sorts a slice of any type according to a less-than function.
-func SliceFn[Elem](s []Elem, less func(Elem, Elem) bool) {
+func SliceFn[Elem any](s []Elem, less func(Elem, Elem) bool) {
 	sort.Sort(sliceFn[Elem]{s, less})
 }

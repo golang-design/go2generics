@@ -70,7 +70,7 @@ type keyValue[K, V any] struct {
 
 // InOrder returns an iterator that does an in-order traversal of the map.
 func (m *OrderedMap[K, V]) InOrder() *Iterator[K, V] {
-	sender, receiver := chans.Ranger(keyValue[K, V])()
+	sender, receiver := chans.Ranger[keyValue[K, V]]()
 	var f func(*node[K, V]) bool
 	f = func(n *node[K, V]) bool {
 		if n == nil {

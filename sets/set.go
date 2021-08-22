@@ -7,7 +7,7 @@ package sets
 type Set[Elem comparable] map[Elem]struct{}
 
 func Make[Elem comparable]() Set[Elem] {
-	return make(Set(Elem))
+	return make(Set[Elem])
 }
 
 func (s Set[Elem]) Add(v Elem) {

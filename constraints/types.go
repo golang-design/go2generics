@@ -9,23 +9,23 @@ package constraints
 // In practice this type constraint would likely be defined in
 // a standard library package.
 type Ordered interface {
-	type int, int8, int16, int32, int64,
-		uint, uint8, uint16, uint32, uint64, uintptr,
-		float32, float64,
-		string
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr |
+	~float32 | ~float64 |
+	~string
 }
 
 type Integer interface {
-	type int8, int16, int32, int64, int,
-		uint8, uint16, uint32, uint64, uint
+	~int8 | ~int16 | ~int32 | ~int64 | ~int |
+	~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uint
 }
 
 type Signed interface {
-	type int, int8, int16, int32, int64
+	~int | ~int8 | ~int16 | ~int32 | ~int64
 }
 
 type Unsigned interface {
-	type uint, uint8, uint16, uint32, uint64, uintptr
+	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr
 }
 
 type Adder[T any] interface {
@@ -33,5 +33,5 @@ type Adder[T any] interface {
 }
 
 type FloatComplex interface {
-	type float32, float64, complex64, complex128
+	~float32 | ~float64 | ~complex64 | ~complex128
 }

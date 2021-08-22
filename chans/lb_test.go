@@ -46,7 +46,5 @@ func TestLB(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		outs[i] = make(chan int, 10)
 	}
-	LB(func(m int) int {
-		return rand.Intn(m)
-	}, ins, outs)
+	LB(func(m int) int { return rand.Intn(m)}, ins, outs)
 }

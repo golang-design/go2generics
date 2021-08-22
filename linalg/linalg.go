@@ -9,9 +9,9 @@ import "math"
 // Numeric is a contract that matches any numeric type.
 // It would likely be in a contracts package in the standard library.
 type Numeric interface {
-	type int, int8, int16, int32, int64, uint, uint8,
-		uint16, uint32, uint64, uintptr, float32,
-		float64, complex64, complex128
+	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 |
+	~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 |
+	~float64 | ~complex64 | ~complex128
 }
 
 // NumericAbs matches numeric types with an Abs method.
@@ -22,13 +22,13 @@ type NumericAbs[T any] interface {
 
 // OrderedNumeric matches numeric types that support the < operator.
 type OrderedNumeric interface {
-	type int, int8, int16, int32, int64, uint, uint8,
-		uint16, uint32, uint64, uintptr, float32, float64
+	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 |
+	~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 | ~float64
 }
 
 // Complex matches the two complex types, which do not have a < operator.
 type Complex interface {
-	type complex64, complex128
+	~complex64 | ~complex128
 }
 
 func DotProduct[T Numeric](s1, s2 []T) T {
@@ -44,7 +44,7 @@ func DotProduct[T Numeric](s1, s2 []T) T {
 
 // AbsDifference computes the absolute value of the difference of
 // a and b, where the absolute value is determined by the Abs method.
-func AbsDifference[T NumericAbs](a, b T) T {
+func AbsDifference[T NumericAbs[T]](a, b T) T {
 	d := a - b
 	return d.Abs()
 }

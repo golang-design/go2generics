@@ -15,5 +15,5 @@ type PrintableStringer[T Stringer] interface {
 }
 
 type Sequence interface {
-	type string, []byte
+	~string | ~[]byte
 }
