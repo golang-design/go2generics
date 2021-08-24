@@ -10,9 +10,9 @@ import (
 
 func TestVec_New(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
-		v2 := NewVec2[float64](2, 2)
-		v3 := NewVec2[float64](1, 1)
+		v1 := NewVec2(1, 1)
+		v2 := NewVec2(2, 2)
+		v3 := NewVec2(1, 1)
 		if v1.Eq(v2) {
 			t.Fatalf("unexpected comparison, got true, want false")
 		}
@@ -24,8 +24,8 @@ func TestVec_New(t *testing.T) {
 
 func TestVec_Rand(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewRandVec2[float64]()
-		v2 := NewRandVec2[float64]()
+		v1 := NewRandVec2()
+		v2 := NewRandVec2()
 		if v1.Eq(v2) {
 			t.Fatalf("unexpected different random vectors, got %v, %v", v1, v2)
 		}
@@ -34,10 +34,10 @@ func TestVec_Rand(t *testing.T) {
 
 func TestVec_Add(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
-		v2 := NewVec2[float64](2, 2)
+		v1 := NewVec2(1, 1)
+		v2 := NewVec2(2, 2)
 		got := v1.Add(v2)
-		want := NewVec2[float64](3, 3)
+		want := NewVec2(3, 3)
 		if !want.Eq(got) {
 			t.Fatalf("unexpected Add, got %v, want %v", got, want)
 		}
@@ -46,10 +46,10 @@ func TestVec_Add(t *testing.T) {
 
 func TestVec_Sub(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
-		v2 := NewVec2[float64](2, 2)
+		v1 := NewVec2(1, 1)
+		v2 := NewVec2(2, 2)
 		got := v1.Sub(v2)
-		want := NewVec2[float64](-1, -1)
+		want := NewVec2(-1, -1)
 		if !want.Eq(got) {
 			t.Fatalf("unexpected Add, got %v, want %v", got, want)
 		}
@@ -58,8 +58,8 @@ func TestVec_Sub(t *testing.T) {
 
 func TestVec_Dot(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
-		v2 := NewVec2[float64](2, 2)
+		v1 := NewVec2(1, 1)
+		v2 := NewVec2(2, 2)
 		got := v1.Dot(v2)
 		want := 4.0
 		if !ApproxEq(want, got, Epsilon) {
@@ -70,11 +70,11 @@ func TestVec_Dot(t *testing.T) {
 
 func TestVec_IsZero(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
+		v1 := NewVec2(1, 1)
 		if v1.IsZero() {
 			t.Fatalf("unexpected IsZero assertion, want false, got true")
 		}
-		v1 = NewVec2[float64](0, 0)
+		v1 = NewVec2(0, 0)
 		if !v1.IsZero() {
 			t.Fatalf("unexpected IsZero assertion, want true, got false")
 		}
@@ -83,9 +83,9 @@ func TestVec_IsZero(t *testing.T) {
 
 func TestVec_Scale(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
+		v1 := NewVec2(1, 1)
 		got := v1.Scale(2, 2)
-		want := NewVec2[float64](2, 2)
+		want := NewVec2(2, 2)
 		if !got.Eq(want) {
 			t.Fatalf("unexpected scale, want %v, got %v", want, got)
 		}
@@ -94,9 +94,9 @@ func TestVec_Scale(t *testing.T) {
 
 func TestVec_Translate(t *testing.T) {
 	t.Run("Vec2", func(t *testing.T) {
-		v1 := NewVec2[float64](1, 1)
+		v1 := NewVec2(1, 1)
 		got := v1.Translate(2, 2)
-		want := NewVec2[float64](3, 3)
+		want := NewVec2(3, 3)
 		if !got.Eq(want) {
 			t.Fatalf("unexpected translate, want %v, got %v", want, got)
 		}

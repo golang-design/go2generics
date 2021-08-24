@@ -11,13 +11,13 @@ import (
 
 var (
 	v  float64
-	vv Vec2[float64]
+	vv Vec2
 )
 
 func BenchmarkVec_Eq(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
-		v2 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
+		v2 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -29,8 +29,8 @@ func BenchmarkVec_Eq(b *testing.B) {
 
 func BenchmarkVec_Add(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
-		v2 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
+		v2 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -42,8 +42,8 @@ func BenchmarkVec_Add(b *testing.B) {
 
 func BenchmarkVec_Sub(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
-		v2 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
+		v2 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -54,7 +54,7 @@ func BenchmarkVec_Sub(b *testing.B) {
 }
 func BenchmarkVec_IsZero(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -66,7 +66,7 @@ func BenchmarkVec_IsZero(b *testing.B) {
 
 func BenchmarkVec_Scale(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -78,7 +78,7 @@ func BenchmarkVec_Scale(b *testing.B) {
 
 func BenchmarkVec_Translate(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -90,8 +90,8 @@ func BenchmarkVec_Translate(b *testing.B) {
 
 func BenchmarkVec_Dot(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
-		v2 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
+		v2 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -103,7 +103,7 @@ func BenchmarkVec_Dot(b *testing.B) {
 
 func BenchmarkVec_Len(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -115,7 +115,7 @@ func BenchmarkVec_Len(b *testing.B) {
 
 func BenchmarkVec_Unit(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()
@@ -126,7 +126,7 @@ func BenchmarkVec_Unit(b *testing.B) {
 }
 func BenchmarkVec_Apply(b *testing.B) {
 	b.Run("Vec2", func(b *testing.B) {
-		v1 := NewVec2[float64](rand.Float64(), rand.Float64())
+		v1 := NewVec2(rand.Float64(), rand.Float64())
 
 		b.ReportAllocs()
 		b.ResetTimer()

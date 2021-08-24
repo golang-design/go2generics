@@ -7,6 +7,6 @@ package vec
 import "math"
 
 // ApproxEq approximately compares v1 and v2.
-func ApproxEq[T floats](v1, v2, epsilon T) bool {
+func ApproxEq(v1, v2, epsilon float64) bool {
 	return math.Abs(float64(v1)-float64(v2)) <= float64(epsilon)
 }
