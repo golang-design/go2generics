@@ -136,25 +136,32 @@ func Difference[Elem comparable](s1, s2 Set[Elem]) Set[Elem]
 ## 更多示例
 
 出了前面的标准库实现示例之外，仓库中还包含了更多其他场景下的的示例。这些示例可以直接
-通过安装的 gotip 命令执行：
+通过安装的 gotip 命令执行（附加 `GOEXPERIMENT=unified` 环境变量能够编译更多的示例）：
 
-```
-$ gotip run demo/ex1-sort.go
-$ gotip run demo/ex2-mapreduce.go
-$ gotip run demo/ex3-stack.go
-$ gotip run demo/ex4-map.go
-$ cd errors      && gotip test
-$ cd fmt         && gotip test
-$ cd future      && gotip test
-$ cd linalg      && gotip test
-$ cd list        && gotip test
-$ cd math        && gotip test
-$ cd metrics     && gotip test
-$ cd ring        && gotip test
-$ cd stack       && gotip test
-$ cd strings     && gotip test
-$ cd sync/atomic && gotip test
-$ cd tree        && gotip test
+```sh
+export GOEXPERIMENT=unified      # 重要! 见 #47896
+
+gotip run demo/ex1-sort.go
+gotip run demo/ex2-mapreduce.go
+gotip run demo/ex3-stack.go
+gotip run demo/ex4-map.go
+gotip run demo/ex5-loadbalance.go
+cd chans       && gotip test
+cd errors      && gotip test
+cd fmt         && gotip test
+cd future      && gotip test
+cd graph       && gotip test
+cd linalg      && gotip test
+cd list        && gotip test
+cd math        && gotip test
+cd metrics     && gotip test
+cd ring        && gotip test
+cd sched       && gotip test
+cd stack       && gotip test
+cd strings     && gotip test
+cd sync        && gotip test
+cd sync/atomic && gotip test
+cd tree        && gotip test
 ```
 
 ## 已知的问题
@@ -163,18 +170,12 @@ $ cd tree        && gotip test
 
 - 泛型切片表达式尚未实现
 - 公开函数的导出和包的导入还需要完善
-- 更多类型检查相关的完善
 
 更多满足语言规范的代码（暂时）还不能正常编译执行。例如这些目录下的代码：
 
 ```
-chans
-demo/ex5-loadbalance.go
-graph
 maps
-sched
 slices
-sync
 ```
 
 ## 进一步阅读
