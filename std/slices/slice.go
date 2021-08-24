@@ -7,7 +7,7 @@
 // of a slice at index 0 <= i < len(s).
 package slices
 
-import "golang.design/x/go2generics/constraints" // See #45458
+import "golang.design/x/go2generics/std/constraints" // See #45458
 
 // Equal reports whether two slices are equal: the same length and all
 // elements equal. If the lengths are different, Equal returns false.
@@ -73,7 +73,7 @@ func Compare[T constraints.Ordered](s1, s2 []T) int {
 		}
 	}
 	switch {
-	case l == len(s1) && l == len(s2) :
+	case l == len(s1) && l == len(s2):
 		return 0
 	case l < len(s1): // s1 is longer
 		return 1
@@ -111,7 +111,7 @@ func CompareFunc[T any](s1, s2 []T, cmp func(T, T) int) int {
 		}
 	}
 	switch {
-	case l == len(s1) && l == len(s2) :
+	case l == len(s1) && l == len(s2):
 		return 0
 	case l < len(s1): // s1 is longer
 		return 1
@@ -192,8 +192,8 @@ func Compact[S constraints.Slice[T], T comparable](s S) S {
 	if s == nil {
 		return s
 	}
-	lastIdx := len(s)-1
-	for i := len(s)-2; i !=0; i-- {
+	lastIdx := len(s) - 1
+	for i := len(s) - 2; i != 0; i-- {
 		if s[i] == s[lastIdx] {
 			continue
 		}
@@ -208,8 +208,8 @@ func CompactFunc[S constraints.Slice[T], T any](s S, cmp func(T, T) bool) S {
 	if s == nil {
 		return s
 	}
-	lastIdx := len(s)-1
-	for i := len(s)-2; i !=0; i-- {
+	lastIdx := len(s) - 1
+	for i := len(s) - 2; i != 0; i-- {
 		if cmp(s[i], s[lastIdx]) {
 			continue
 		}
@@ -224,7 +224,7 @@ func CompactFunc[S constraints.Slice[T], T any](s S, cmp func(T, T) bool) S {
 // to the slice without another allocation. If n is negative or too large to
 // allocate the memory, Grow will panic.
 func Grow[S constraints.Slice[T], T any](s S, n int) S {
-	ss := make([]T, len(s), len(s) + n)
+	ss := make([]T, len(s), len(s)+n)
 	copy(ss, s[:])
 	return ss
 }
