@@ -145,46 +145,35 @@ func Difference[Elem comparable](s1, s2 Set[Elem]) Set[Elem]
 ## Further  Working Examples
 
 The current compiler implementation is still under development.
-These further examples can be run without an error (with `GOEXPERIMENT=unified`):
+These further examples can be run without an error (last update: 2021.09.22):
 
 ```sh
-export GOEXPERIMENT=unified      # important! see #47896
-
 gotip run demo/ex1-sort.go
 gotip run demo/ex2-mapreduce.go
 gotip run demo/ex3-stack.go
 gotip run demo/ex4-map.go
 gotip run demo/ex5-loadbalance.go
-cd chans       && gotip test
-cd errors      && gotip test
-cd fmt         && gotip test
-cd future      && gotip test
-cd graph       && gotip test
-cd linalg      && gotip test
-cd list        && gotip test
-cd math        && gotip test
-cd metrics     && gotip test
-cd ring        && gotip test
-cd sched       && gotip test
-cd stack       && gotip test
-cd strings     && gotip test
-cd sync        && gotip test
-cd sync/atomic && gotip test
-cd tree        && gotip test
+cd chans       && gotip test ./... && cd ..
+cd errors      && gotip test ./... && cd ..
+cd fmt         && gotip test ./... && cd ..
+cd future      && gotip test ./... && cd ..
+cd graph       && gotip test ./... && cd ..
+cd linalg      && gotip test ./... && cd ..
+cd list        && gotip test ./... && cd ..
+cd math        && gotip test ./... && cd ..
+cd metrics     && gotip test ./... && cd ..
+cd ring        && gotip test ./... && cd ..
+cd stack       && gotip test ./... && cd ..
+cd strings     && gotip test ./... && cd ..
+cd sync        && gotip test ./... && cd ..
+cd tree        && gotip test ./... && cd ..
 ```
-
 ## Known Issues
 
-The know issues of the current implementation:
-
-- generic slice expressions not yet implemented
-- package import is still problematic
-
-These written packages are not runnable yet (will trigger some internal compiler bug):
+This package cannot be run yet:
 
 ```
-maps
-slices
+cd sched       && gotip test && cd ..
 ```
 
 ## References
