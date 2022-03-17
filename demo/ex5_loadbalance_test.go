@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package demo_test
 
 import (
 	"math/rand"
 	"sync"
+	"testing"
 )
 
 func getInputChan() <-chan int {
@@ -37,14 +38,18 @@ func getSquareChan(input <-chan int) <-chan int {
 func Fanin[T any](chans ...<-chan T) <-chan T {
 	buf := 0
 	for _, ch := range chans {
-		if len(ch) > buf { buf = len(ch) }
-	} 
+		if len(ch) > buf {
+			buf = len(ch)
+		}
+	}
 	out := make(chan T)
 	wg := sync.WaitGroup{}
 	wg.Add(len(chans))
 	for _, ch := range chans {
 		go func(ch <-chan T) {
-			for v := range ch { out <- v }
+			for v := range ch {
+				out <- v
+			}
 			wg.Done()
 		}(ch)
 	}
@@ -66,7 +71,7 @@ func Fanout[T any](in <-chan T, outs ...chan T) {
 	}
 }
 
-func main() {
+func TestLoadBalance(t *testing.T) {
 	inA := getInputChan()
 	inB := getInputChan()
 	outs := make([]chan int, 10)

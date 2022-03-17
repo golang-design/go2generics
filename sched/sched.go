@@ -12,14 +12,14 @@ import (
 	"unsafe"
 )
 
-type Future [R any] struct {
-	Err error
+type Future[R any] struct {
+	Err   error
 	value atomic.Value
 }
 
 // Get implements Future interface
 func (f *Future[R]) Get() R {
-	var v interface{}
+	var v any
 	// spin until value is stored in future.value
 	for ; v == nil && f.Err == nil; v = f.value.Load() {
 		runtime.Gosched()
@@ -31,9 +31,8 @@ func (f *Future[R]) put(v R) {
 	f.value.Store(v)
 }
 
-
 // Task interface for sched
-type Task [R any] interface {
+type Task[R any] interface {
 	// GetID must returns a unique ID for all of the scheduled task.
 	GetID() (id string)
 	// GetExecution returns the time for task execution.
@@ -45,15 +44,13 @@ type Task [R any] interface {
 	Execute() (result R, retry bool, fail error)
 }
 
-
-
 // sched is the actual scheduler for task scheduling
 //
 // sched implements greedy scheduling, with a timer and a task queue,
 // the task queue is a priority queue that orders tasks by executing
 // time. The timer is the only time.Timer lives in runtime, it serves
 // the head task in the task queue.
-type sched [R any, T Task[R]] struct {
+type sched[R any, T Task[R]] struct {
 	// running counts the tasks already starts that cannot be stopped.
 	running uint64 // atomic
 	// pausing is a sign that indicates if sched should stop running.
@@ -118,7 +115,6 @@ func (sched0 *sched[R, T]) Resume() {
 	atomic.AddUint64(&sched0.pausing, ^uint64(0)) // -1
 	sched0.resume()
 }
-
 
 func (s *sched[R, T]) schedule(t T, when time.Time) *Future[R] {
 	s.pause()
@@ -264,13 +260,13 @@ func (s *sched[R, T]) execute(t *task[R]) {
 // or access key by its value
 //
 // TODO: lock-free
-type taskQueue [R any] struct {
+type taskQueue[R any] struct {
 	heap   *taskHeap[R]
 	lookup map[string]*task[R]
 	mu     sync.Mutex
 }
 
-func newTaskQueue [R any] () *taskQueue[R] {
+func newTaskQueue[R any]() *taskQueue[R] {
 	return &taskQueue[R]{
 		heap:   &taskHeap[R]{},
 		lookup: map[string]*task[R]{},
@@ -303,7 +299,7 @@ func (m *taskQueue[R]) pop() *task[R] {
 		return nil
 	}
 
-	item := heap.Pop(m.heap).(*task[R])     // O(log(n))
+	item := heap.Pop(m.heap).(*task[R])  // O(log(n))
 	delete(m.lookup, item.value.GetID()) // O(1) amortized
 	m.mu.Unlock()
 	return item
@@ -339,7 +335,7 @@ func (m *taskQueue[R]) update(t Task[R], when time.Time) (*Future[R], bool) {
 }
 
 // a task is something we manage in a priority queue.
-type task [R any] struct {
+type task[R any] struct {
 	value Task[R] // for storage
 
 	// The index is needed by update and is maintained by the
@@ -370,7 +366,7 @@ func (pq taskHeap[R]) Swap(i, j int) {
 	pq[j].index = j
 }
 
-func (pq *taskHeap[R]) Pop() interface{} {
+func (pq *taskHeap[R]) Pop() any {
 	old := *pq
 	n := len(old)
 	item := old[n-1]
@@ -378,7 +374,7 @@ func (pq *taskHeap[R]) Pop() interface{} {
 	return item
 }
 
-func (pq *taskHeap[R]) Push(x interface{}) {
+func (pq *taskHeap[R]) Push(x any) {
 	item := x.(*task[R])
 	item.index = len(*pq)
 	*pq = append(*pq, item)

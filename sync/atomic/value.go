@@ -17,5 +17,5 @@ func (v *Value[T]) Load() T {
 }
 
 func (v *Value[T]) Store(val T) {
-	v.val.Store(interface{}(val))
+	v.val.Store(any(val))
 }

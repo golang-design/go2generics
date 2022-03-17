@@ -2,23 +2,26 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package demo_test
+
+import "testing"
 
 // naive generic map[k]v
 type Pair[T1, T2 any] struct {
 	Key   T1
 	Value T2
 }
-type Map[T1 comparable, T2 any] struct {
+type GenericMap[T1 comparable, T2 any] struct {
 	s []Pair[T1, T2]
 }
-func NewMap[T1 comparable, T2 any] () Map[T1, T2] {
-	return Map[T1, T2]{s: [](Pair[T1, T2]){}}
+
+func NewGenericMap[T1 comparable, T2 any]() GenericMap[T1, T2] {
+	return GenericMap[T1, T2]{s: [](Pair[T1, T2]){}}
 }
-func (m *Map[T1, T2]) Set(k T1, v T2) {
+func (m *GenericMap[T1, T2]) Set(k T1, v T2) {
 	m.s = append(m.s, Pair[T1, T2]{k, v})
 }
-func (m *Map[T1, T2]) Get(k T1) (v T2, ok bool) {
+func (m *GenericMap[T1, T2]) Get(k T1) (v T2, ok bool) {
 	for _, p := range m.s {
 		if p.Key == k {
 			return p.Value, true
@@ -27,8 +30,8 @@ func (m *Map[T1, T2]) Get(k T1) (v T2, ok bool) {
 	return
 }
 
-func main() {
-	m := NewMap[int, float64]()
+func TestGenericMap(t *testing.T) {
+	m := NewGenericMap[int, float64]()
 	m.Set(1, 2.0)
 	m.Set(2, 3.0)
 	m.Set(3, 4.0)

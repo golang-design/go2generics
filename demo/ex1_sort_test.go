@@ -2,16 +2,17 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package demo_test
 
 import (
 	"fmt"
-	"sort"
 	"reflect"
+	"sort"
+	"testing"
 )
 
 type wrapSort[T any] struct {
-	s    []T
+	s   []T
 	cmp func(T, T) bool
 }
 
@@ -23,11 +24,11 @@ func Sort[T any](s []T, cmp func(T, T) bool) {
 	sort.Sort(wrapSort[T]{s, cmp})
 }
 
-func main() {
+func TestSort(t *testing.T) {
 	s1 := []int{2, 3, 1}
 	sorted1 := []int{1, 2, 3}
 
-	Sort(s1, func (a, b int) bool {
+	Sort(s1, func(a, b int) bool {
 		return a < b
 	})
 
@@ -39,7 +40,7 @@ func main() {
 	s2 := []float64{2.0, 3.0, 1.0}
 	sorted2 := []float64{1, 2, 3}
 
-	Sort(s2, func (a, b float64) bool {
+	Sort(s2, func(a, b float64) bool {
 		return a < b
 	})
 

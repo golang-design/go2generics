@@ -2,16 +2,21 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package demo_test
+
+import "testing"
 
 type Stack[E any] []E
-func NewStack[E any] () Stack[E] {
+
+func NewStack[E any]() Stack[E] {
 	return Stack[E]{}
 }
 func (s *Stack[E]) Pop() (r E, success bool) {
 	l := len(*s)
-	if l == 0 { return }
-	r, *s = (*s)[l - 1], (*s)[:l - 1]
+	if l == 0 {
+		return
+	}
+	r, *s = (*s)[l-1], (*s)[:l-1]
 	success = true
 	return
 }
@@ -19,7 +24,7 @@ func (s *Stack[E]) Push(e E)      { *s = append(*s, e) }
 func (s *Stack[E]) IsEmpty() bool { return len(*s) == 0 }
 func (s *Stack[E]) Len() int      { return len(*s) }
 
-func main() {
+func TestStack(t *testing.T) {
 	s := NewStack[string]()
 	s.Push("hi")
 	s.Push("generics")

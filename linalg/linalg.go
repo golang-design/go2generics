@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// See go.dev/issue/45639
+//
+//go:build ignore
+
 package linalg
 
 import "math"
@@ -10,8 +14,8 @@ import "math"
 // It would likely be in a contracts package in the standard library.
 type Numeric interface {
 	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 |
-	~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 |
-	~float64 | ~complex64 | ~complex128
+		~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 |
+		~float64 | ~complex64 | ~complex128
 }
 
 // NumericAbs matches numeric types with an Abs method.
@@ -23,7 +27,7 @@ type NumericAbs[T any] interface {
 // OrderedNumeric matches numeric types that support the < operator.
 type OrderedNumeric interface {
 	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 |
-	~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 | ~float64
+		~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 | ~float64
 }
 
 // Complex matches the two complex types, which do not have a < operator.
@@ -67,7 +71,7 @@ type ComplexAbs[T Complex] T
 func (a ComplexAbs[T]) Abs() ComplexAbs[T] {
 	r := float64(real(a))
 	i := float64(imag(a))
-	d := math.Sqrt(r * r + i * i)
+	d := math.Sqrt(r*r + i*i)
 	return ComplexAbs[T](complex(d, 0))
 }
 

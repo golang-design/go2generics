@@ -12,9 +12,9 @@ import (
 
 // Map is a type-safe concurrent-safe map[k]v container.
 type Map[K comparable, V any] struct {
-	mu sync.Mutex
-	read atomic.Value // readOnly
-	dirty map[K]*entry
+	mu     sync.Mutex
+	read   atomic.Value // readOnly
+	dirty  map[K]*entry
 	misses int
 }
 
@@ -23,13 +23,13 @@ type readOnly[K comparable, V any] struct {
 	amended bool // true if the dirty map contains some key not in m.
 }
 
-var expunged = unsafe.Pointer(new(interface{}))
+var expunged = unsafe.Pointer(new(any))
 
 type entry struct {
-	p unsafe.Pointer // *interface{}
+	p unsafe.Pointer // *any
 }
 
-func newEntry(i interface{}) *entry {
+func newEntry(i any) *entry {
 	return &entry{p: unsafe.Pointer(&i)}
 }
 
@@ -57,12 +57,12 @@ func (m *Map[K, V]) Load(key K) (value V, ok bool) {
 	return
 }
 
-func (e *entry) load() (value interface{}, ok bool) {
+func (e *entry) load() (value any, ok bool) {
 	p := atomic.LoadPointer(&e.p)
 	if p == nil || p == expunged {
 		return nil, false
 	}
-	return *(*interface{})(p), true
+	return *(*any)(p), true
 }
 
 func (m *Map[K, V]) missLocked() {
@@ -104,14 +104,14 @@ func (m *Map[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 	return
 }
 
-func (e *entry) delete() (value interface{}, ok bool) {
+func (e *entry) delete() (value any, ok bool) {
 	for {
 		p := atomic.LoadPointer(&e.p)
 		if p == nil || p == expunged {
 			return nil, false
 		}
 		if atomic.CompareAndSwapPointer(&e.p, p, nil) {
-			return *(*interface{})(p), true
+			return *(*any)(p), true
 		}
 	}
 }
@@ -151,13 +151,13 @@ func (m *Map[K, V]) LoadOrStore(key K, value V) (V, bool) {
 	}
 }
 
-func (e *entry) tryLoadOrStore(i interface{}) (actual interface{}, loaded, ok bool) {
+func (e *entry) tryLoadOrStore(i any) (actual any, loaded, ok bool) {
 	p := atomic.LoadPointer(&e.p)
 	if p == expunged {
 		return nil, false, false
 	}
 	if p != nil {
-		return *(*interface{})(p), true, true
+		return *(*any)(p), true, true
 	}
 
 	ic := i
@@ -170,7 +170,7 @@ func (e *entry) tryLoadOrStore(i interface{}) (actual interface{}, loaded, ok bo
 			return nil, false, false
 		}
 		if p != nil {
-			return *(*interface{})(p), true, true
+			return *(*any)(p), true, true
 		}
 	}
 }
@@ -239,7 +239,7 @@ func (m *Map[K, V]) Range(f func(key K, value V) bool) {
 
 func (m *Map[K, V]) Store(key K, value V) {
 	read, _ := m.read.Load().(readOnly[K, V])
-	vv := interface{}(value)
+	vv := any(value)
 	if e, ok := read.m[key]; ok && e.tryStore(&vv) {
 		return
 	}
@@ -250,10 +250,10 @@ func (m *Map[K, V]) Store(key K, value V) {
 		if e.unexpungeLocked() {
 			m.dirty[key] = e
 		}
-		vv := interface{}(value)
+		vv := any(value)
 		e.storeLocked(&vv)
 	} else if e, ok := m.dirty[key]; ok {
-		vv := interface{}(value)
+		vv := any(value)
 		e.storeLocked(&vv)
 	} else {
 		if !read.amended {
@@ -265,7 +265,7 @@ func (m *Map[K, V]) Store(key K, value V) {
 	m.mu.Unlock()
 }
 
-func (e *entry) tryStore(i *interface{}) bool {
+func (e *entry) tryStore(i *any) bool {
 	for {
 		p := atomic.LoadPointer(&e.p)
 		if p == expunged {
@@ -277,6 +277,6 @@ func (e *entry) tryStore(i *interface{}) bool {
 	}
 }
 
-func (e *entry) storeLocked(i *interface{}) {
+func (e *entry) storeLocked(i *any) {
 	atomic.StorePointer(&e.p, unsafe.Pointer(i))
 }

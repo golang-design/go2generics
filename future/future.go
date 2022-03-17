@@ -5,8 +5,8 @@
 package future
 
 import (
-	"sync/atomic"
 	"runtime"
+	"sync/atomic"
 )
 
 type Future[T any] struct {
@@ -15,7 +15,7 @@ type Future[T any] struct {
 
 // Get implements TaskFuture interface
 func (f *Future[T]) Get() T {
-	var v interface{}
+	var v any
 	for ; v == nil; v = f.value.Load() {
 		runtime.Gosched()
 	}
@@ -23,5 +23,5 @@ func (f *Future[T]) Get() T {
 }
 
 func (f *Future[T]) Put(v T) {
-	f.value.Store(interface{}(v))
+	f.value.Store(any(v))
 }

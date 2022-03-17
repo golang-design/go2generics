@@ -2,7 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package linalg
+// See go.dev/issue/45639
+//
+//go:build ignore
+
+package linalg_test
 
 import "testing"
 

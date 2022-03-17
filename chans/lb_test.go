@@ -2,11 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package chans
+package chans_test
 
 import (
 	"math/rand"
 	"testing"
+
+	"golang.design/x/go2generics/chans"
 )
 
 func getInputChan() <-chan int {
@@ -27,7 +29,7 @@ func TestFanin(t *testing.T) {
 		chs[i] = getInputChan()
 	}
 
-	out := Fanin(chs...)
+	out := chans.Fanin(chs...)
 	count := 0
 	for range out {
 		count++
@@ -46,5 +48,5 @@ func TestLB(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		outs[i] = make(chan int, 10)
 	}
-	LB(func(m int) int { return rand.Intn(m)}, ins, outs)
+	chans.LB(func(m int) int { return rand.Intn(m) }, ins, outs)
 }

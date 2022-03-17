@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package demo_test
 
 import (
 	"fmt"
+	"testing"
 )
 
 func Map[T1, T2 any](m func(v T1) T2, s []T1) []T2 {
@@ -19,7 +20,7 @@ func Reduce[T any](m func(x, y T) T, s []T) (ret T) {
 	switch l := len(s); {
 	case l == 0:
 		return
-	case l== 1:
+	case l == 1:
 		return s[0]
 	case l == 2:
 		return m(s[0], s[1])
@@ -34,18 +35,18 @@ func Reduce[T any](m func(x, y T) T, s []T) (ret T) {
 func useMap() {
 	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	r := Map(func(x int) float64 {
-		return float64(x)*2.0
+		return float64(x) * 2.0
 	}, s)
 	fmt.Printf("ret: %v\n", r)
 }
 func useReduce() {
 	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	r := Reduce(func(a, b int) int {
-		return a+b
+		return a + b
 	}, s)
 	fmt.Printf("ret: %v\n", r)
 }
-func main() {
+func TestMapReduce(t *testing.T) {
 	useMap()
 	useReduce()
 }

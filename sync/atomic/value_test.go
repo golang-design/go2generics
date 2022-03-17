@@ -41,7 +41,7 @@ func TestValueLarge(t *testing.T) {
 func TestValuePanic(t *testing.T) {
 	const nilErr = "sync/atomic: store of nil value into Value"
 	const badErr = "sync/atomic: store of inconsistently typed value into Value"
-	var v Value[interface{}]
+	var v Value[any]
 	v.Store(42)
 	func() {
 		defer func() {
@@ -55,7 +55,7 @@ func TestValuePanic(t *testing.T) {
 }
 
 func TestValueConcurrent(t *testing.T) {
-	tests := [][]interface{}{
+	tests := [][]any{
 		{uint16(0), ^uint16(0), uint16(1 + 2<<8), uint16(3 + 4<<8)},
 		{uint32(0), ^uint32(0), uint32(1 + 2<<16), uint32(3 + 4<<16)},
 		{uint64(0), ^uint64(0), uint64(1 + 2<<32), uint64(3 + 4<<32)},
@@ -68,7 +68,7 @@ func TestValueConcurrent(t *testing.T) {
 		N = 1e3
 	}
 	for _, test := range tests {
-		var v Value[interface{}]
+		var v Value[any]
 		done := make(chan bool, p)
 		for i := 0; i < p; i++ {
 			go func() {
