@@ -22,34 +22,34 @@ type mapInterface[K comparable, V any] interface {
 }
 
 // RWMutexMap is an implementation of mapInterface using a sync.RWMutex.
-type RWMutexMap struct {
+type RWMutexMap[K comparable, V any] struct {
 	mu    sync.RWMutex
-	dirty map[any]any
+	dirty map[K]V
 }
 
-func (m *RWMutexMap) Load(key any) (value any, ok bool) {
+func (m *RWMutexMap[K, V]) Load(key K) (value V, ok bool) {
 	m.mu.RLock()
 	value, ok = m.dirty[key]
 	m.mu.RUnlock()
 	return
 }
 
-func (m *RWMutexMap) Store(key, value any) {
+func (m *RWMutexMap[K, V]) Store(key K, value V) {
 	m.mu.Lock()
 	if m.dirty == nil {
-		m.dirty = make(map[any]any)
+		m.dirty = make(map[K]V)
 	}
 	m.dirty[key] = value
 	m.mu.Unlock()
 }
 
-func (m *RWMutexMap) LoadOrStore(key, value any) (actual any, loaded bool) {
+func (m *RWMutexMap[K, V]) LoadOrStore(key K, value V) (actual V, loaded bool) {
 	m.mu.Lock()
 	actual, loaded = m.dirty[key]
 	if !loaded {
 		actual = value
 		if m.dirty == nil {
-			m.dirty = make(map[any]any)
+			m.dirty = make(map[K]V)
 		}
 		m.dirty[key] = value
 	}
@@ -57,27 +57,27 @@ func (m *RWMutexMap) LoadOrStore(key, value any) (actual any, loaded bool) {
 	return actual, loaded
 }
 
-func (m *RWMutexMap) LoadAndDelete(key any) (value any, loaded bool) {
+func (m *RWMutexMap[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 	m.mu.Lock()
 	value, loaded = m.dirty[key]
 	if !loaded {
 		m.mu.Unlock()
-		return nil, false
+		return
 	}
 	delete(m.dirty, key)
 	m.mu.Unlock()
 	return value, loaded
 }
 
-func (m *RWMutexMap) Delete(key any) {
+func (m *RWMutexMap[K, V]) Delete(key K) {
 	m.mu.Lock()
 	delete(m.dirty, key)
 	m.mu.Unlock()
 }
 
-func (m *RWMutexMap) Range(f func(key, value any) (shouldContinue bool)) {
+func (m *RWMutexMap[K, V]) Range(f func(key K, value V) (shouldContinue bool)) {
 	m.mu.RLock()
-	keys := make([]any, 0, len(m.dirty))
+	keys := make([]K, 0, len(m.dirty))
 	for k := range m.dirty {
 		keys = append(keys, k)
 	}
@@ -97,18 +97,18 @@ func (m *RWMutexMap) Range(f func(key, value any) (shouldContinue bool)) {
 // DeepCopyMap is an implementation of mapInterface using a Mutex and
 // atomic.Value.  It makes deep copies of the map on every write to avoid
 // acquiring the Mutex in Load.
-type DeepCopyMap struct {
+type DeepCopyMap[K comparable, V any] struct {
 	mu    sync.Mutex
 	clean atomic.Value
 }
 
-func (m *DeepCopyMap) Load(key any) (value any, ok bool) {
-	clean, _ := m.clean.Load().(map[any]any)
+func (m *DeepCopyMap[K, V]) Load(key K) (value V, ok bool) {
+	clean, _ := m.clean.Load().(map[K]V)
 	value, ok = clean[key]
 	return value, ok
 }
 
-func (m *DeepCopyMap) Store(key, value any) {
+func (m *DeepCopyMap[K, V]) Store(key K, value V) {
 	m.mu.Lock()
 	dirty := m.dirty()
 	dirty[key] = value
@@ -116,8 +116,8 @@ func (m *DeepCopyMap) Store(key, value any) {
 	m.mu.Unlock()
 }
 
-func (m *DeepCopyMap) LoadOrStore(key, value any) (actual any, loaded bool) {
-	clean, _ := m.clean.Load().(map[any]any)
+func (m *DeepCopyMap[K, V]) LoadOrStore(key K, value V) (actual V, loaded bool) {
+	clean, _ := m.clean.Load().(map[K]V)
 	actual, loaded = clean[key]
 	if loaded {
 		return actual, loaded
@@ -125,7 +125,7 @@ func (m *DeepCopyMap) LoadOrStore(key, value any) (actual any, loaded bool) {
 
 	m.mu.Lock()
 	// Reload clean in case it changed while we were waiting on m.mu.
-	clean, _ = m.clean.Load().(map[any]any)
+	clean, _ = m.clean.Load().(map[K]V)
 	actual, loaded = clean[key]
 	if !loaded {
 		dirty := m.dirty()
@@ -137,7 +137,7 @@ func (m *DeepCopyMap) LoadOrStore(key, value any) (actual any, loaded bool) {
 	return actual, loaded
 }
 
-func (m *DeepCopyMap) LoadAndDelete(key any) (value any, loaded bool) {
+func (m *DeepCopyMap[K, V]) LoadAndDelete(key K) (value V, loaded bool) {
 	m.mu.Lock()
 	dirty := m.dirty()
 	value, loaded = dirty[key]
@@ -147,7 +147,7 @@ func (m *DeepCopyMap) LoadAndDelete(key any) (value any, loaded bool) {
 	return
 }
 
-func (m *DeepCopyMap) Delete(key any) {
+func (m *DeepCopyMap[K, V]) Delete(key K) {
 	m.mu.Lock()
 	dirty := m.dirty()
 	delete(dirty, key)
@@ -155,8 +155,8 @@ func (m *DeepCopyMap) Delete(key any) {
 	m.mu.Unlock()
 }
 
-func (m *DeepCopyMap) Range(f func(key, value any) (shouldContinue bool)) {
-	clean, _ := m.clean.Load().(map[any]any)
+func (m *DeepCopyMap[K, V]) Range(f func(key K, value V) (shouldContinue bool)) {
+	clean, _ := m.clean.Load().(map[K]V)
 	for k, v := range clean {
 		if !f(k, v) {
 			break
@@ -164,9 +164,9 @@ func (m *DeepCopyMap) Range(f func(key, value any) (shouldContinue bool)) {
 	}
 }
 
-func (m *DeepCopyMap) dirty() map[any]any {
-	clean, _ := m.clean.Load().(map[any]any)
-	dirty := make(map[any]any, len(clean)+1)
+func (m *DeepCopyMap[K, V]) dirty() map[K]V {
+	clean, _ := m.clean.Load().(map[K]V)
+	dirty := make(map[K]V, len(clean)+1)
 	for k, v := range clean {
 		dirty[k] = v
 	}

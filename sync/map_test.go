@@ -56,7 +56,7 @@ type mapResult struct {
 	ok    bool
 }
 
-func randValue(r *rand.Rand) any {
+func randValue(r *rand.Rand) string {
 	b := make([]byte, r.Intn(4))
 	for i := range b {
 		b[i] = 'a' + byte(rand.Intn(26))
@@ -65,22 +65,22 @@ func randValue(r *rand.Rand) any {
 }
 
 func (mapCall[K, V]) Generate(r *rand.Rand, size int) reflect.Value {
-	c := mapCall[mapOp, any]{op: mapOps[rand.Intn(len(mapOps))], k: randValue(r)}
+	c := mapCall[mapOp, string]{op: mapOps[rand.Intn(len(mapOps))], k: mapOp(randValue(r))}
 	switch c.op {
 	case opStore, opLoadOrStore:
-		c.v = randValue(r)
+		c.v = string(randValue(r))
 	}
 	return reflect.ValueOf(c)
 }
 
-func applyCalls[K comparable, V any](m mapInterface, calls []mapCall) (results []mapResult, final map[any]any) {
+func applyCalls[K comparable, V any](m mapInterface[K, V], calls []mapCall[K, V]) (results []mapResult, final map[K]V) {
 	for _, c := range calls {
 		v, ok := c.apply(m)
 		results = append(results, mapResult{v, ok})
 	}
 
-	final = make(map[any]any)
-	m.Range(func(k, v any) bool {
+	final = make(map[K]V)
+	m.Range(func(k K, v V) bool {
 		final[k] = v
 		return true
 	})
@@ -88,26 +88,26 @@ func applyCalls[K comparable, V any](m mapInterface, calls []mapCall) (results [
 	return results, final
 }
 
-func applyMap(calls []mapCall) ([]mapResult, map[any]any) {
-	return applyCalls(new(Map[any, any]), calls)
+func applyMap[K comparable, V any](calls []mapCall[K, V]) ([]mapResult, map[K]V) {
+	return applyCalls[K, V](new(Map[K, V]), calls)
 }
 
-func applyRWMutexMap(calls []mapCall) ([]mapResult, map[any]any) {
-	return applyCalls(new(RWMutexMap), calls)
+func applyRWMutexMap[K comparable, V any](calls []mapCall[K, V]) ([]mapResult, map[K]V) {
+	return applyCalls[K, V](new(RWMutexMap[K, V]), calls)
 }
 
-func applyDeepCopyMap(calls []mapCall) ([]mapResult, map[any]any) {
-	return applyCalls(new(DeepCopyMap), calls)
+func applyDeepCopyMap[K comparable, V any](calls []mapCall[K, V]) ([]mapResult, map[K]V) {
+	return applyCalls[K, V](new(DeepCopyMap[K, V]), calls)
 }
 
 func TestMapMatchesRWMutex(t *testing.T) {
-	if err := quick.CheckEqual(applyMap, applyRWMutexMap, nil); err != nil {
+	if err := quick.CheckEqual(applyMap[mapOp, string], applyRWMutexMap[mapOp, string], nil); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestMapMatchesDeepCopy(t *testing.T) {
-	if err := quick.CheckEqual(applyMap, applyDeepCopyMap, nil); err != nil {
+	if err := quick.CheckEqual(applyMap[mapOp, string], applyDeepCopyMap[mapOp, string], nil); err != nil {
 		t.Error(err)
 	}
 }
