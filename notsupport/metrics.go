@@ -4,21 +4,21 @@
 
 package notsupport
 
-// variadic type parameter list is not supported.
-type Elements[Ts ...comparable] struct {
-	es ...Ts
-}
+// // variadic type parameter list is not supported.
+// type Elements[Ts ...comparable] struct {
+// 	es ...Ts
+// }
 
-type Metric[Ts ...comparable] struct {
-	mu sync.Mutex
-	m  map[Elements[Ts...]]int
-}
+// type Metric[Ts ...comparable] struct {
+// 	mu sync.Mutex
+// 	m  map[Elements[Ts...]]int
+// }
 
-func (m *Metric[Ts...]) Add(vs ...Ts) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	if m.m == nil {
-		m.m = make(map[Elements[Ts...]]int)
-	}
-	m[Elements[Ts...]{vs...}]++
-}
+// func (m *Metric[Ts...]) Add(vs ...Ts) {
+// 	m.mu.Lock()
+// 	defer m.mu.Unlock()
+// 	if m.m == nil {
+// 		m.m = make(map[Elements[Ts...]]int)
+// 	}
+// 	m[Elements[Ts...]{vs...}]++
+// }

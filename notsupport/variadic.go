@@ -7,20 +7,18 @@ package notsupport
 // This file illustrates what's impossible in the current
 // contract design - variadic generics.
 
-import "fmt"
+// type Tuple [Ts ...comparable] struct {
+// 	elements ...Ts
+// }
 
-type Tuple (type Ts ...comparable) struct {
-	elements ...Ts
-}
+// func (t *Tuple(Ts...)) Set(es ...Ts) {
+// 	t.elements(Ts...){es...}
+// }
 
-func (t *Tuple(Ts...)) Set(es ...Ts) {
-	t.elements(Ts...){es...}
-}
+// func (t Tuple) PirntAll() {
+// 	for _, e := range t.elements {
+// 		fmt.Println(e)
+// 	}
+// }
 
-func (t Tuple) PirntAll() {
-	for _, e := range t.elements {
-		fmt.Println(e)
-	}
-}
-
-// func (t Tuple(Ts...)) Get(i int) T ??
+// // func (t Tuple(Ts...)) Get(i int) T ??
