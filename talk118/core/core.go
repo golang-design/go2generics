@@ -1,3 +1,7 @@
+// Copyright 2022 Changkun Ou. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package main
 
 type X float32 // The core type of X is float32
