@@ -1,5 +1,20 @@
 # go2generics ![](https://changkun.de/urlstat?mode=github&repo=golang-design/go2generics)
 
+> [!NOTE]
+> **This repository is archived and no longer maintained.**
+>
+> It was a collection of experiments and demos exploring the Go 2 generics
+> design (type parameters and type sets) before generics landed in the
+> language. Generics shipped in Go 1.18 (March 2022), and the packages
+> prototyped here now have official homes:
+>
+> - `constraints`, `slices`, `maps` — see [`golang.org/x/exp`](https://pkg.go.dev/golang.org/x/exp)
+>   and the standard library [`slices`](https://pkg.go.dev/slices) and
+>   [`maps`](https://pkg.go.dev/maps) packages (Go 1.21+).
+>
+> The content is kept for historical reference only. For up-to-date guidance,
+> use the standard library and the official tutorials.
+
 A chunk of demos for Go generics design (based on type parameters and type sets).
 
 ## Standard Package
